@@ -1,0 +1,14 @@
+{
+	"apiVersion": 2,
+	"name": "qa/multiple-choice",
+	"title": "Multiple Choice Question",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "Multiple Choice Question",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "questions-and-answers",
+	"editorStyle": "file:../../../build/index.css",
+	"style": "file:../../../build/style-index.css"
+}
