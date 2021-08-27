@@ -101,18 +101,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const trackerClass = '.qa-frontend-question-block';
-const trackers = document.querySelectorAll(trackerClass);
-trackers.forEach(tracker => {
+const questionClass = '.qa-frontend-question-block';
+const questions = document.querySelectorAll(questionClass);
+questions.forEach(question => {
   const attributes = {
-    block_id: tracker.dataset.id,
-    question: tracker.dataset.question,
-    post_id: parseInt(tracker.dataset.post_id, 10)
+    block_id: question.dataset.id,
+    post_id: parseInt(question.dataset.post_id, 10),
+    question: question.dataset.question
   };
-  console.log(attributes);
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__["default"], {
     dataAttributes: attributes
-  }), tracker);
+  }), question);
 });
 
 /***/ }),

@@ -12,9 +12,9 @@ Questions and Answers plugin
 
 This is a WordPress plugin that is still in the making. The plan is to create several question and answer blocks. The editor should be able to place questions with a respecttive right answer, and the user should be able to respond to those questions in the frontend of the website.
 
-The planned blocks, until now are the following:
+The planned blocks, until now, are the following:
 
-1. True or false question\*
+1. True or false question
 1. Multiple choice (with a single answer) question
 1. Multiple choice (with several answers) question
 1. "Fill the blank spaces" question

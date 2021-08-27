@@ -77,26 +77,6 @@ add_action('rest_api_init', function() {
     ] );
 });
 
-/*function check_initiative_permissions( WP_REST_Request $request ) : bool {
-    $post_id = $request->get_param( 'id' ) ?? 0;
-
-    if ( ! is_user_logged_in() ) {
-        return false;
-    }
-
-    $post = get_post( $post_id );
-
-    if ( null === $post ) {
-        return false;
-    }
-
-    if ( current_user_can( 'edit_published_posts' ) ) {
-        return true;
-    }
-
-    return get_current_user_id() === $post->post_author;
-}*/
-
 function update_initiative( WP_REST_Request $request ) : WP_REST_Response {
     $post_id      = $request->get_param( 'id' );
     $post_content = get_post_field( 'post_content', $post_id );
