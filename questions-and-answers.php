@@ -22,7 +22,7 @@
  */
 function qa_questions_and_answers_block_init() {
     
-	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice');    
+	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice', array('render_callback' => 'qa_render_blockmarkup'));    
 	register_block_type_from_metadata( __DIR__ . '/src/blocks/true-false', array('render_callback' => 'qa_render_blockmarkup'));
     
     $asset_file = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
@@ -82,9 +82,10 @@ function update_initiative( WP_REST_Request $request ) : WP_REST_Response {
     $post_content = get_post_field( 'post_content', $post_id );
     $post_blocks  = parse_blocks( $post_content );
     $blocks_by_id = array();
+    $qa_blocks = ['qa/true-false', 'qa/multiple-choice'];
 
     foreach($post_blocks as $block) {
-        if('qa/true-false' === $block['blockName'] && $post_content) {
+        if( in_array($block['blockName']) && $post_content) {
             $blocks_by_id[$block['attrs']['id']] = array(
                 'rightAnswer' => $block['attrs']['rightAnswer']
             );

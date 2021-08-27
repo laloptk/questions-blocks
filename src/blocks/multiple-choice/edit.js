@@ -1,38 +1,62 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
+import { 
+	Card,
+	CardHeader,
+	CardBody,
+	TextControl,
+	Button
+} from '@wordpress/components';
+import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
-
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import QuestionInput from '../../components/QuestionInput';
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit() {
+export default function Edit({ clientId, attributes, setAttributes }) {
+	const blockProps = useBlockProps();	
+
+	useEffect(() => {
+		attributes.id === '' 
+		&& setAttributes( { "id": clientId } )
+	}, [])
+
+	const handleQuestionChange = (value) => {
+		setAttributes( { "question": value } )
+	}
+
+	const handleChoicesChange = (value, index) => {
+		setAttributes({ choices: { ...attributes.choices, [`choice-${index}`]: { value: value } } })
+	}
+
+	const handleRepetition = () => {
+		setAttributes( { 
+			repetitionCounter: attributes.repetitionCounter + 1, 
+			choices: {...attributes.choices, [`choice-${attributes.repetitionCounter}`]: { value: '' } } } 
+		)
+	}
+
+	console.log(attributes);
+
 	return (
-		<p { ...useBlockProps() }>
-			{ __( 'ESNext – hello from the editor!', 'questions-and-answers' ) }
-		</p>
+		<div { ...blockProps }>
+			<Card size="large">
+				<CardHeader>
+					<h3>{ __('Multiple Choice Q&A') }</h3>
+				</CardHeader>
+				<CardBody size="large">
+					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
+					<h4>{ __( 'Place the answer options') }</h4>
+					{
+						
+						Object.keys(attributes.choices).map((key, index) => {
+							return <TextControl 
+										onChange={ (value) => handleChoicesChange(value, index) } 
+										value={ attributes.choices[key].value } 
+									/>
+						})						
+					}		
+					<Button onClick={handleRepetition} variant="primary">Add Choice</Button>		
+				</CardBody>
+			</Card>				
+		</div>
 	);
 }

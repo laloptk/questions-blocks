@@ -10,5 +10,23 @@
 	},
 	"textdomain": "questions-and-answers",
 	"editorStyle": "file:../../../build/index.css",
-	"style": "file:../../../build/style-index.css"
+	"style": "file:../../../build/style-index.css",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"question": {
+			"type": "string",
+			"default": ""
+		},
+		"repetitionCounter": {
+			"type": "number",
+			"default": 0
+		},
+		"choices": {
+			"type": "object",
+			"default": {}
+		}
+	}
 }

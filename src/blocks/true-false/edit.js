@@ -30,9 +30,10 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		<div { ...blockProps }>
 			<Card size="large">
 				<CardHeader>
-					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
+					<h3>{ __('True or false Q&A') }</h3>
 				</CardHeader>
 				<CardBody size="large">
+					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<TrueFalseInput handleChange={ handleAnswerChange } answer={ attributes.rightAnswer } />
 				</CardBody>
 			</Card>				

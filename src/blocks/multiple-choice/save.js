@@ -23,12 +23,5 @@ import { useBlockProps } from '@wordpress/block-editor';
  * @return {WPElement} Element to render.
  */
 export default function save() {
-	return (
-		<p { ...useBlockProps.save() }>
-			{ __(
-				'ESNext – hello from the saved content!',
-				'questions-and-answers'
-			) }
-		</p>
-	);
+	return null;
 }
