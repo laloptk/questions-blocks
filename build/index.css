@@ -6,6 +6,13 @@
 .wp-block-qa-questions-and-answers {
   border: 1px dotted #f00;
 }
+
+.qa-repeated__item {
+  display: flex;
+}
+.qa-repeated__item--close {
+  opacity: 0.6;
+}
 /**
  * The following styles get applied inside the editor only.
  *

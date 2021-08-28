@@ -34,7 +34,11 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		)
 	}
 
-	console.log(attributes);
+	const removeItem = (choiceName) => {
+		const choices = attributes.choices;
+		delete choices[choiceName];
+		setAttributes( { choices } );
+	}
 
 	return (
 		<div { ...blockProps }>
@@ -45,13 +49,25 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 				<CardBody size="large">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<h4>{ __( 'Place the answer options') }</h4>
-					{
-						
-						Object.keys(attributes.choices).map((key, index) => {
-							return <TextControl 
-										onChange={ (value) => handleChoicesChange(value, index) } 
-										value={ attributes.choices[key].value } 
-									/>
+					{						
+						Object.keys(attributes.choices).map((choiceName, index) => {
+							return (
+								<div className="qa-repeated__item">
+									<div className="qa-repeated__item--input">
+										<TextControl 
+											onChange={ (value) => handleChoicesChange(value, index) } 
+											value={ attributes.choices[choiceName].value } 
+										/>
+									</div>
+									<div className="qa-repeated__item--close">
+										<Button 
+											onClick={ () => removeItem(choiceName) } 
+										>
+											<span className="dashicons dashicons-dismiss"></span>
+										</Button>
+									</div>
+								</div>
+							)
 						})						
 					}		
 					<Button onClick={handleRepetition} variant="primary">Add Choice</Button>		

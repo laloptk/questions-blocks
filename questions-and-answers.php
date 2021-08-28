@@ -22,7 +22,7 @@
  */
 function qa_questions_and_answers_block_init() {
     
-	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice', array('render_callback' => 'qa_render_blockmarkup'));    
+	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice');    
 	register_block_type_from_metadata( __DIR__ . '/src/blocks/true-false', array('render_callback' => 'qa_render_blockmarkup'));
     
     $asset_file = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
@@ -72,20 +72,39 @@ add_action( 'init', 'qa_questions_and_answers_register_post_meta' );
 
 add_action('rest_api_init', function() {
     register_rest_route( 'questions-and-answers/v1', '/qa-post-blocks/(?P<id>[\d]+)', [
-        'methods'             => 'POST',
+        'methods'             => ['POST', 'GET'],
         'callback'            => 'update_initiative'
     ] );
 });
+
+/*function check_initiative_permissions( WP_REST_Request $request ) : bool {
+    $post_id = $request->get_param( 'id' ) ?? 0;
+
+    if ( ! is_user_logged_in() ) {
+        return false;
+    }
+
+    $post = get_post( $post_id );
+
+    if ( null === $post ) {
+        return false;
+    }
+
+    if ( current_user_can( 'edit_published_posts' ) ) {
+        return true;
+    }
+
+    return get_current_user_id() === $post->post_author;
+}*/
 
 function update_initiative( WP_REST_Request $request ) : WP_REST_Response {
     $post_id      = $request->get_param( 'id' );
     $post_content = get_post_field( 'post_content', $post_id );
     $post_blocks  = parse_blocks( $post_content );
     $blocks_by_id = array();
-    $qa_blocks = ['qa/true-false', 'qa/multiple-choice'];
 
     foreach($post_blocks as $block) {
-        if( in_array($block['blockName']) && $post_content) {
+        if('qa/true-false' === $block['blockName'] && $post_content) {
             $blocks_by_id[$block['attrs']['id']] = array(
                 'rightAnswer' => $block['attrs']['rightAnswer']
             );
