@@ -19,22 +19,39 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	}, [])
 
 	const handleQuestionChange = (value) => {
-		setAttributes( { "question": value } )
+		const qAndAs = getRightQandAs( value );
+		setAttributes( { frontEndQuestion: qAndAs.question, question: value, rightAnswers:  qAndAs.answers } );
 	}
 
-	const handleAnswerChange = () => {
-		setAttributes({ "rightAnswer": ! attributes.rightAnswer })
+	const getRightQandAs = ( question ) => {
+		const openingWrapper = '*__';
+		const closingWrapper = '__*';
+		let questionCopy = question;
+		const answersArray = [];
+		
+		while
+		( 
+			questionCopy.indexOf( openingWrapper ) 
+			&& questionCopy.indexOf( closingWrapper ) 
+			&& questionCopy.indexOf( openingWrapper ) < questionCopy.indexOf( closingWrapper )
+		) {			
+			const openingIndex = questionCopy.indexOf( openingWrapper );
+			const closingIndex = questionCopy.indexOf( closingWrapper );	
+			answersArray.push(questionCopy.substring( openingIndex + openingWrapper.length, closingIndex ) );
+			questionCopy = questionCopy.substring( closingIndex + closingWrapper.length );
+		}
+
+		return { answers: answersArray, question: question.replaceAll( closingWrapper, '' ).replaceAll( openingWrapper, '' ) }
 	}
 
 	return (
 		<div { ...blockProps }>
 			<Card size="large">
 				<CardHeader>
-					<h3>{ __('True or false Q&A') }</h3>
+					<h3>{ __('Fill Blanks Q&A') }</h3>
 				</CardHeader>
 				<CardBody size="large">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
-					<TrueFalseInput handleChange={ handleAnswerChange } answer={ attributes.rightAnswer } />
 				</CardBody>
 			</Card>				
 		</div>

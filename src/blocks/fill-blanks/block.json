@@ -1,15 +1,14 @@
 {
 	"apiVersion": 2,
-	"name": "qa/true-false",
-	"title": "True or False Question",
+	"name": "qa/fill-blanks",
+	"title": "Fill the blanks Q&A",
 	"category": "widgets",
 	"icon": "smiley",
-	"description": "True or false question",
+	"description": "Write a question with blanks using *__ answer __*",
 	"supports": {
 		"html": false
 	},
 	"textdomain": "questions-and-answers",
-	"editorScript": "file:../../../build/index.js",
 	"editorStyle": "file:../../../build/index.css",
 	"style": "file:../../../build/style-index.css",
 	"attributes": {
@@ -17,12 +16,17 @@
 			"type": "string",
 			"default": ""
 		},
-		"question": {
-			"type": "string"
+		"frontEndQuestion": {
+			"type": "string",
+			"default": ""
 		},
-		"rightAnswer": {
-			"type": "boolean",
-			"default": false
+		"question": {
+			"type": "string",
+			"default": ""
+		},
+		"rightAnswers": {
+			"type": "array",
+			"default": []
 		}
 	}
 }

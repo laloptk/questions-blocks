@@ -22,7 +22,8 @@
  */
 function qa_questions_and_answers_block_init() {
     
-	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice');    
+	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice');
+    register_block_type_from_metadata( __DIR__ . '/src/blocks/fill-blanks');    
 	register_block_type_from_metadata( __DIR__ . '/src/blocks/true-false', array('render_callback' => 'qa_render_blockmarkup'));
     
     $asset_file = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';

@@ -1,5 +1,19 @@
 (window["webpackJsonp_questions_and_answers"] = window["webpackJsonp_questions_and_answers"] || []).push([["style-index"],{
 
+/***/ "./src/blocks/fill-blanks/style.scss":
+/*!*******************************************!*\
+  !*** ./src/blocks/fill-blanks/style.scss ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./src/blocks/multiple-choice/style.scss":
 /*!***********************************************!*\
   !*** ./src/blocks/multiple-choice/style.scss ***!
@@ -186,6 +200,200 @@ __webpack_require__.r(__webpack_exports__);
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./src/blocks/fill-blanks/edit.js":
+/*!****************************************!*\
+  !*** ./src/blocks/fill-blanks/edit.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Edit; });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
+/* harmony import */ var _components_TrueFalseInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/TrueFalseInput */ "./src/components/TrueFalseInput.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
+
+
+
+
+
+
+
+
+function Edit({
+  clientId,
+  attributes,
+  setAttributes
+}) {
+  const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])();
+  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    attributes.id === '' && setAttributes({
+      "id": clientId
+    });
+  }, []);
+
+  const handleQuestionChange = value => {
+    const qAndAs = getRightQandAs(value);
+    setAttributes({
+      frontEndQuestion: qAndAs.question,
+      question: value,
+      rightAnswers: qAndAs.answers
+    });
+  };
+
+  const getRightQandAs = question => {
+    const openingWrapper = '*__';
+    const closingWrapper = '__*';
+    let questionCopy = question;
+    const answersArray = [];
+
+    while (questionCopy.indexOf(openingWrapper) && questionCopy.indexOf(closingWrapper) && questionCopy.indexOf(openingWrapper) < questionCopy.indexOf(closingWrapper)) {
+      const openingIndex = questionCopy.indexOf(openingWrapper);
+      const closingIndex = questionCopy.indexOf(closingWrapper);
+      answersArray.push(questionCopy.substring(openingIndex + openingWrapper.length, closingIndex));
+      questionCopy = questionCopy.substring(closingIndex + closingWrapper.length);
+    }
+
+    return {
+      answers: answersArray,
+      question: question.replaceAll(closingWrapper, '').replaceAll(openingWrapper, '')
+    };
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
+    size: "large"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Fill Blanks Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
+    size: "large"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    handleChange: handleQuestionChange,
+    text: attributes.question
+  }))));
+}
+
+/***/ }),
+
+/***/ "./src/blocks/fill-blanks/editor.scss":
+/*!********************************************!*\
+  !*** ./src/blocks/fill-blanks/editor.scss ***!
+  \********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/blocks/fill-blanks/fill-blanks.js":
+/*!***********************************************!*\
+  !*** ./src/blocks/fill-blanks/fill-blanks.js ***!
+  \***********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/fill-blanks/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/blocks/fill-blanks/edit.js");
+/* harmony import */ var _save__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./save */ "./src/blocks/fill-blanks/save.js");
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__["registerBlockType"])('qa/fill-blanks', {
+  /**
+   * @see ./edit.js
+   */
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+
+  /**
+   * @see ./save.js
+   */
+  save: _save__WEBPACK_IMPORTED_MODULE_3__["default"]
+});
+
+/***/ }),
+
+/***/ "./src/blocks/fill-blanks/save.js":
+/*!****************************************!*\
+  !*** ./src/blocks/fill-blanks/save.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return save; });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
+ */
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
+ */
+
+
+/**
+ * The save function defines the way in which the different attributes should
+ * be combined into the final markup, which is then serialized by the block
+ * editor into `post_content`.
+ *
+ * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#save
+ *
+ * @return {WPElement} Element to render.
+ */
+
+function save() {
+  return null;
+}
+
+/***/ }),
 
 /***/ "./src/blocks/multiple-choice/edit.js":
 /*!********************************************!*\
@@ -664,6 +872,8 @@ const TrueFalseInput = props => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _blocks_multiple_choice_multiple_choice__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./blocks/multiple-choice/multiple-choice */ "./src/blocks/multiple-choice/multiple-choice.js");
 /* harmony import */ var _blocks_true_false_true_false__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./blocks/true-false/true-false */ "./src/blocks/true-false/true-false.js");
+/* harmony import */ var _blocks_fill_blanks_fill_blanks__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./blocks/fill-blanks/fill-blanks */ "./src/blocks/fill-blanks/fill-blanks.js");
+
 
 
 
