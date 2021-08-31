@@ -220,9 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
-/* harmony import */ var _components_TrueFalseInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/TrueFalseInput */ "./src/components/TrueFalseInput.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
-
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
 
 
 
@@ -277,7 +275,9 @@ function Edit({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
-  }))));
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "The right answers you chose are, in that order:", attributes.rightAnswers.map(answer => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, " ", answer, " ");
+  })))));
 }
 
 /***/ }),

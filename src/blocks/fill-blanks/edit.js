@@ -7,7 +7,6 @@ import {
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
-import TrueFalseInput from '../../components/TrueFalseInput';
 import './editor.scss';
 
 export default function Edit({ clientId, attributes, setAttributes }) {
@@ -52,6 +51,14 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 				</CardHeader>
 				<CardBody size="large">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
+					<div>
+						The right answers you chose are, in that order:
+						{
+							attributes.rightAnswers.map((answer) => {
+								return <span> { answer } </span>
+							})
+						}
+					</div>
 				</CardBody>
 			</Card>				
 		</div>
