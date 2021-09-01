@@ -268,6 +268,8 @@ function Edit({
     };
   };
 
+  const handleWrongAnswers = value => {};
+
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "large"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Fill Blanks Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
@@ -275,8 +277,16 @@ function Edit({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "The right answers you chose are, in that order:", attributes.rightAnswers.map(answer => {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", null, " ", answer, " ");
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "all-answers"
+  }, "The right answers you chose are, in that order:", attributes.rightAnswers.map(answer => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "answers-partial"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "right-answer"
+    }, answer), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      class: "wrong-answers"
+    }));
   })))));
 }
 
@@ -414,7 +424,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/multiple-choice/editor.scss");
+/* harmony import */ var _components_TextControlRepeater__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/TextControlRepeater */ "./src/components/TextControlRepeater.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/multiple-choice/editor.scss");
+
 
 
 
@@ -440,30 +452,7 @@ function Edit({
     });
   };
 
-  const handleChoicesChange = (value, index) => {
-    setAttributes({
-      choices: { ...attributes.choices,
-        [`choice-${index}`]: {
-          value: value
-        }
-      }
-    });
-  };
-
-  const handleRepetition = () => {
-    setAttributes({
-      repetitionCounter: attributes.repetitionCounter + 1,
-      choices: { ...attributes.choices,
-        [`choice-${attributes.repetitionCounter}`]: {
-          value: ''
-        }
-      }
-    });
-  };
-
-  const removeItem = choiceName => {
-    const choices = attributes.choices;
-    delete choices[choiceName];
+  const handleChoicesChange = choices => {
     setAttributes({
       choices
     });
@@ -476,25 +465,10 @@ function Edit({
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Place the answer options')), Object.keys(attributes.choices).map((choiceName, index) => {
-    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "qa-repeated__item"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "qa-repeated__item--input"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
-      onChange: value => handleChoicesChange(value, index),
-      value: attributes.choices[choiceName].value
-    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      className: "qa-repeated__item--close"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-      onClick: () => removeItem(choiceName)
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
-      className: "dashicons dashicons-dismiss"
-    }))));
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-    onClick: handleRepetition,
-    variant: "primary"
-  }, "Add Choice"))));
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Place the answer multiple choices:')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_TextControlRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    onChange: handleChoicesChange,
+    choices: attributes.choices
+  }))));
 }
 
 /***/ }),
@@ -823,6 +797,58 @@ const QuestionInput = props => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (QuestionInput);
+
+/***/ }),
+
+/***/ "./src/components/TextControlRepeater.js":
+/*!***********************************************!*\
+  !*** ./src/components/TextControlRepeater.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+const TextControlRepeater = props => {
+  const handleAddChoice = () => {
+    props.onChange([...props.choices, '']);
+  };
+
+  const handleDeleteChoice = index => {
+    props.onChange([...props.choices.slice(0, index), ...props.choices.slice(index + 1)]);
+  };
+
+  const handleChoiceValue = (value, index) => {
+    props.onChange([...props.choices.slice(0, index), value, ...props.choices.slice(index + 1)]);
+  };
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "text-control-repeater"
+  }, props.choices.map((choice, index) => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "choice"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
+      onChange: value => handleChoiceValue(value, index),
+      value: choice
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      onClick: () => handleDeleteChoice(index)
+    }, "Delete"));
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    onClick: handleAddChoice
+  }, "Add Element"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (TextControlRepeater);
 
 /***/ }),
 

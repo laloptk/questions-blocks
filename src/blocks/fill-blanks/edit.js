@@ -2,7 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { 
 	Card,
 	CardHeader,
-	CardBody
+	CardBody,
+	TextControl
 } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
@@ -43,6 +44,10 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		return { answers: answersArray, question: question.replaceAll( closingWrapper, '' ).replaceAll( openingWrapper, '' ) }
 	}
 
+	const handleWrongAnswers = ( value ) => {
+
+	}
+
 	return (
 		<div { ...blockProps }>
 			<Card size="large">
@@ -51,11 +56,32 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 				</CardHeader>
 				<CardBody size="large">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
-					<div>
+					<div className="all-answers">
 						The right answers you chose are, in that order:
 						{
 							attributes.rightAnswers.map((answer) => {
-								return <span> { answer } </span>
+								return (
+									<div className="answers-partial">
+										<div className="right-answer">
+											{ answer }
+										</div>
+										<div class="wrong-answers">
+											{ /*
+
+												for(let i = 0; i < 3; i++) {
+													return (
+														<div class="wrong-answers__item">
+															<TextControl 
+																value={ attributes.value }
+																onChange={ handleWrongAnswers }
+															/>
+														</div>
+													)
+												}
+											*/}
+										</div>
+									</div>
+								)
 							})
 						}
 					</div>
