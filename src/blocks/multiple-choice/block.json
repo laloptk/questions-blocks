@@ -20,10 +20,6 @@
 			"type": "string",
 			"default": ""
 		},
-		"repetitionCounter": {
-			"type": "number",
-			"default": 0
-		},
 		"choices": {
 			"type": "array",
 			"default": []
