@@ -11,7 +11,6 @@ const TrueFalseInput = ( props ) => {
                         ? __( 'You chose "True" as the the right answer.' )
                         : __( 'You chose "False" as the the right answer.' )
                 }
-                placeholder="Write your question here..."
                 checked={ props.answer }
                 onChange={ props.handleChange }
             />		

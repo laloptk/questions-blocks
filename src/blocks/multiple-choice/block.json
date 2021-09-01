@@ -27,6 +27,17 @@
 		"choices": {
 			"type": "array",
 			"default": []
+		},
+		"rightAnswers": {
+			"type": "query",
+			"selector": "input[type='checkbox']",
+			"query": {
+				"value": {
+					"type": "string",
+					"src": "attribute",
+					"attribute": "value"
+				}
+			}			
 		}
 	}
 }

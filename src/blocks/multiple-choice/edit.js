@@ -7,7 +7,7 @@ import {
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
-import TextControlRepeater from '../../components/TextControlRepeater';
+import ChoiceRepeater from '../../components/ChoiceRepeater';
 import './editor.scss';
 
 export default function Edit({ clientId, attributes, setAttributes }) {
@@ -26,16 +26,22 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		setAttributes( { choices } );
 	}
 
+
+	console.log(attributes.choices);
+
 	return (
 		<div { ...blockProps }>
 			<Card size="large">
 				<CardHeader>
-					<h3>{ __('Multiple Choice Q&A') }</h3>
+					<h3>{ __( 'Multiple Choice Q&A' ) }</h3>
 				</CardHeader>
 				<CardBody size="large">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<h4>{ __( 'Place the answer multiple choices:' ) }</h4>					
-					<TextControlRepeater onChange={ handleChoicesChange } choices={ attributes.choices } />									
+					<ChoiceRepeater 
+						onChange={ handleChoicesChange } 
+						choices={ attributes.choices } 
+					/>									
 				</CardBody>
 			</Card>				
 		</div>

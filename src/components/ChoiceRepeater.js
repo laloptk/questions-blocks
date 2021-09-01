@@ -1,18 +1,22 @@
 import { __ } from '@wordpress/i18n';
-import { TextControl, Button } from '@wordpress/components';
+import { TextControl, Button, ToggleControl } from '@wordpress/components';
 
-const TextControlRepeater = ( { choices, onChange } ) => {
+const ChoiceRepeater = ( { choices, onChange } ) => {
 
     const handleAddChoice = () => {
-        onChange( [ ...choices, '' ] );
+        onChange( [ ...choices, ['', false] ] );
     }
 
     const handleDeleteChoice = ( index ) => {
         onChange( [ ...choices.slice( 0, index ), ...choices.slice( index + 1 ) ] );
     }
-
+ 
     const handleChoiceValue = (value, index) => {
-        onChange( [ ...choices.slice( 0, index ), value ,...choices.slice( index + 1 ) ] );        
+        onChange( [ ...choices.slice( 0, index ), [value, choices[index][1]] ,...choices.slice( index + 1 ) ] );        
+    }
+
+    const handleRightAnswers = ( index ) => {
+        onChange( [ ...choices.slice( 0, index ), [choices[index][0], !choices[index][1]] ,...choices.slice( index + 1 ) ] );
     }
 
     return (
@@ -23,7 +27,12 @@ const TextControlRepeater = ( { choices, onChange } ) => {
                         <div className="choice" > 
                             <TextControl 
                                 onChange={ ( value ) => handleChoiceValue( value, index ) } 
-                                value={ choice }
+                                value={ choice[0] }
+                            />
+                            <ToggleControl
+                                help="Toggle to mark as a correct option."
+                                onChange={ () => handleRightAnswers( index ) }
+                                checked={ choice[1] }
                             />
                             <Button onClick={ () => handleDeleteChoice( index ) } >Delete</Button>
                         </div>
@@ -36,4 +45,4 @@ const TextControlRepeater = ( { choices, onChange } ) => {
     )
 }
 
-export default TextControlRepeater;
+export default ChoiceRepeater;
