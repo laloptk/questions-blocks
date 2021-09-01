@@ -10,3 +10,14 @@
 	color: #fff;
 	padding: 2px;
 }
+
+.choice {
+	padding-bottom: 25px;
+
+	&__controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1px solid #999999;
+	}
+}

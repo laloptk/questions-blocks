@@ -803,28 +803,33 @@ const ChoiceRepeater = ({
     onChange([...choices.slice(0, index), [value, choices[index][1]], ...choices.slice(index + 1)]);
   };
 
-  const handleRightAnswers = index => {
+  const handleChoiceStatus = index => {
     onChange([...choices.slice(0, index), [choices[index][0], !choices[index][1]], ...choices.slice(index + 1)]);
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: "text-control-repeater"
+    className: "choice-repeater"
   }, choices.map((choice, index) => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "choice"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["TextControl"], {
       onChange: value => handleChoiceValue(value, index),
       value: choice[0]
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
-      help: "Toggle to mark as a correct option.",
-      onChange: () => handleRightAnswers(index),
+    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "choice__controls"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
+      label: choice[1] ? "You marked this answer as correct." : "This is not a correct answer",
+      help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Toggle to switch answer status.'),
+      onChange: () => handleChoiceStatus(index),
       checked: choice[1]
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+      className: "is-primary",
       onClick: () => handleDeleteChoice(index)
-    }, "Delete"));
+    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Delete Choice'))));
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    className: "is-primary choice__add",
     onClick: handleAddChoice
-  }, "Add Element"));
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Add Choice')));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (ChoiceRepeater);

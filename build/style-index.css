@@ -9,6 +9,16 @@
   color: #fff;
   padding: 2px;
 }
+
+.choice {
+  padding-bottom: 25px;
+}
+.choice__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #999999;
+}
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.

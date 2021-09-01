@@ -15,12 +15,12 @@ const ChoiceRepeater = ( { choices, onChange } ) => {
         onChange( [ ...choices.slice( 0, index ), [value, choices[index][1]] ,...choices.slice( index + 1 ) ] );        
     }
 
-    const handleRightAnswers = ( index ) => {
-        onChange( [ ...choices.slice( 0, index ), [choices[index][0], !choices[index][1]] ,...choices.slice( index + 1 ) ] );
+    const handleChoiceStatus = ( index ) => {
+        onChange( [ ...choices.slice( 0, index ), [ choices[index][0], !choices[index][1] ] ,...choices.slice( index + 1 ) ] );
     }
 
     return (
-        <div className="text-control-repeater">   
+        <div className="choice-repeater">   
             { 
                 choices.map( ( choice, index ) => { 
                     return (
@@ -29,18 +29,30 @@ const ChoiceRepeater = ( { choices, onChange } ) => {
                                 onChange={ ( value ) => handleChoiceValue( value, index ) } 
                                 value={ choice[0] }
                             />
-                            <ToggleControl
-                                help="Toggle to mark as a correct option."
-                                onChange={ () => handleRightAnswers( index ) }
-                                checked={ choice[1] }
-                            />
-                            <Button onClick={ () => handleDeleteChoice( index ) } >Delete</Button>
+                            <div className="choice__controls">
+                                <ToggleControl
+                                    label={
+                                        choice[1] 
+                                        ? "You marked this answer as correct."
+                                        : "This is not a correct answer"
+                                    }
+                                    help={ __( 'Toggle to switch answer status.' ) }
+                                    onChange={ () => handleChoiceStatus( index ) }
+                                    checked={ choice[1] }
+                                />
+                                <Button 
+                                    className="is-primary" 
+                                    onClick={ () => handleDeleteChoice( index ) } 
+                                >
+                                    { __( 'Delete Choice' ) }
+                                </Button>
+                            </div>
                         </div>
                     )
-                })
+                } )
             }
 
-            <Button onClick={ handleAddChoice }>Add Element</Button>
+            <Button className="is-primary choice__add" onClick={ handleAddChoice }>{ __( 'Add Choice' ) }</Button>
         </div>
     )
 }
