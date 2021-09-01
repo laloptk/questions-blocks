@@ -1,28 +1,28 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl, Button } from '@wordpress/components';
 
-const TextControlRepeater = (props) => {
+const TextControlRepeater = ( { choices, onChange } ) => {
 
     const handleAddChoice = () => {
-        props.onChange( [ ...props.choices, ''] );
+        onChange( [ ...choices, '' ] );
     }
 
     const handleDeleteChoice = ( index ) => {
-        props.onChange( [...props.choices.slice(0, index), ...props.choices.slice(index + 1) ] );
+        onChange( [ ...choices.slice( 0, index ), ...choices.slice( index + 1 ) ] );
     }
 
     const handleChoiceValue = (value, index) => {
-        props.onChange( [...props.choices.slice(0, index), value ,...props.choices.slice(index + 1) ] );        
+        onChange( [ ...choices.slice( 0, index ), value ,...choices.slice( index + 1 ) ] );        
     }
 
     return (
         <div className="text-control-repeater">   
             { 
-                props.choices.map((choice, index) => { 
+                choices.map( ( choice, index ) => { 
                     return (
-                        <div className="choice"  > 
+                        <div className="choice" > 
                             <TextControl 
-                                onChange={ ( value ) => handleChoiceValue(value, index) } 
+                                onChange={ ( value ) => handleChoiceValue( value, index ) } 
                                 value={ choice }
                             />
                             <Button onClick={ () => handleDeleteChoice( index ) } >Delete</Button>
