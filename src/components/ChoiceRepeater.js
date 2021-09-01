@@ -33,8 +33,8 @@ const ChoiceRepeater = ( { choices, onChange } ) => {
                                 <ToggleControl
                                     label={
                                         choice[1] 
-                                        ? "You marked this answer as correct."
-                                        : "This is not a correct answer"
+                                        ? __( 'You marked this answer as correct.' )
+                                        : __( 'This is not a correct answer.' )
                                     }
                                     help={ __( 'Toggle to switch answer status.' ) }
                                     onChange={ () => handleChoiceStatus( index ) }
