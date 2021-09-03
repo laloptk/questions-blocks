@@ -8,6 +8,7 @@ import {
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
+import ChoiceRepeater from '../../components/ChoiceRepeater';
 import './editor.scss';
 
 export default function Edit({ clientId, attributes, setAttributes }) {
@@ -44,8 +45,8 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 		return { answers: answersArray, question: question.replaceAll( closingWrapper, '' ).replaceAll( openingWrapper, '' ) }
 	}
 
-	const handleWrongAnswers = ( value ) => {
-
+	const handleChoicesChange = ( wrongChoices ) => {
+		setAttributes( { wrongChoices } );
 	}
 
 	return (
@@ -55,6 +56,9 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h3>{ __('Fill Blanks Q&A') }</h3>
 				</CardHeader>
 				<CardBody size="large">
+					<p>
+						Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*
+					</p>
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<div className="all-answers">
 						The right answers you chose are, in that order:
@@ -65,25 +69,16 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 										<div className="right-answer">
 											{ answer }
 										</div>
-										<div class="wrong-answers">
-											{ /*
-
-												for(let i = 0; i < 3; i++) {
-													return (
-														<div class="wrong-answers__item">
-															<TextControl 
-																value={ attributes.value }
-																onChange={ handleWrongAnswers }
-															/>
-														</div>
-													)
-												}
-											*/}
-										</div>
 									</div>
 								)
 							})
 						}
+						<h3>Write wrong answer choices:</h3>
+						<ChoiceRepeater 
+							onChange={ handleChoicesChange } 
+							choices={ attributes.wrongChoices }
+							showStatus={ false }
+						/>
 					</div>
 				</CardBody>
 			</Card>				

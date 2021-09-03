@@ -151,7 +151,7 @@ const FrontEndRender = ({
   const getBlocksData = async () => {
     setLoading(true);
     const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-      path: `${initTracker.route}/${dataAttributes.post_id}`,
+      path: `${qasAPIRoute}/${dataAttributes.post_id}`,
       method: 'POST'
     }).then(success => {
       return success;

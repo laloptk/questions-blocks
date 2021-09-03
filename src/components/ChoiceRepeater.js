@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl, Button, ToggleControl } from '@wordpress/components';
 
-const ChoiceRepeater = ( { choices, onChange } ) => {
+const ChoiceRepeater = ( { choices, onChange, showStatus = true } ) => {
 
     const handleAddChoice = () => {
         onChange( [ ...choices, ['', false] ] );
@@ -30,16 +30,19 @@ const ChoiceRepeater = ( { choices, onChange } ) => {
                                 value={ choice[0] }
                             />
                             <div className="choice__controls">
-                                <ToggleControl
-                                    label={
-                                        choice[1] 
-                                        ? __( 'You marked this answer as correct.' )
-                                        : __( 'This is not a correct answer.' )
-                                    }
-                                    help={ __( 'Toggle to switch answer status.' ) }
-                                    onChange={ () => handleChoiceStatus( index ) }
-                                    checked={ choice[1] }
-                                />
+                                {
+                                    showStatus === true &&
+                                        <ToggleControl
+                                            label={
+                                                choice[1] 
+                                                ? __( 'You marked this answer as correct.' )
+                                                : __( 'This is not a correct answer.' )
+                                            }
+                                            help={ __( 'Toggle to switch answer status.' ) }
+                                            onChange={ () => handleChoiceStatus( index ) }
+                                            checked={ choice[1] }
+                                        />
+                                }
                                 <Button 
                                     className="is-primary" 
                                     onClick={ () => handleDeleteChoice( index ) } 
@@ -52,7 +55,7 @@ const ChoiceRepeater = ( { choices, onChange } ) => {
                 } )
             }
 
-            <Button className="is-primary choice__add" onClick={ handleAddChoice }>{ __( 'Add Choice' ) }</Button>
+            <Button className="is-primary" onClick={ handleAddChoice }>{ __( 'Add Choice' ) }</Button>
         </div>
     )
 }

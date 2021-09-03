@@ -19,7 +19,7 @@ const FrontEndRender = ( { dataAttributes } ) => {
         setLoading( true );
 
         const response = await apiFetch( {
-            path: `${initTracker.route}/${ dataAttributes.post_id }`,
+            path: `${qasAPIRoute}/${ dataAttributes.post_id }`,
             method: 'POST'
         } ).then( ( success ) => {
             return success;

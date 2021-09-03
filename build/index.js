@@ -220,7 +220,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
+/* harmony import */ var _components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/ChoiceRepeater */ "./src/components/ChoiceRepeater.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
+
 
 
 
@@ -268,13 +270,17 @@ function Edit({
     };
   };
 
-  const handleWrongAnswers = value => {};
+  const handleChoicesChange = wrongChoices => {
+    setAttributes({
+      wrongChoices
+    });
+  };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "large"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Fill Blanks Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
     size: "large"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -284,9 +290,11 @@ function Edit({
       className: "answers-partial"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "right-answer"
-    }, answer), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-      class: "wrong-answers"
-    }));
+    }, answer));
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, "Write wrong answer choices:"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    onChange: handleChoicesChange,
+    choices: attributes.wrongChoices,
+    showStatus: false
   })))));
 }
 
@@ -458,7 +466,6 @@ function Edit({
     });
   };
 
-  console.log(attributes.choices);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "large"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Multiple Choice Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
@@ -789,7 +796,8 @@ __webpack_require__.r(__webpack_exports__);
 
 const ChoiceRepeater = ({
   choices,
-  onChange
+  onChange,
+  showStatus = true
 }) => {
   const handleAddChoice = () => {
     onChange([...choices, ['', false]]);
@@ -817,8 +825,8 @@ const ChoiceRepeater = ({
       value: choice[0]
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "choice__controls"
-    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
-      label: choice[1] ? "You marked this answer as correct." : "This is not a correct answer",
+    }, showStatus === true && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
+      label: choice[1] ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You marked this answer as correct.') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('This is not a correct answer.'),
       help: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Toggle to switch answer status.'),
       onChange: () => handleChoiceStatus(index),
       checked: choice[1]
@@ -827,7 +835,7 @@ const ChoiceRepeater = ({
       onClick: () => handleDeleteChoice(index)
     }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Delete Choice'))));
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
-    className: "is-primary choice__add",
+    className: "is-primary",
     onClick: handleAddChoice
   }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Add Choice')));
 };

@@ -20,14 +20,11 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 
 	const handleQuestionChange = ( value ) => {
 		setAttributes( { "question": value } )
-	}
+	}              
 
 	const handleChoicesChange = ( choices ) => {
 		setAttributes( { choices } );
 	}
-
-
-	console.log(attributes.choices);
 
 	return (
 		<div { ...blockProps }>
