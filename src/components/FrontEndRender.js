@@ -31,12 +31,12 @@ const FrontEndRender = ( { dataAttributes } ) => {
             };
         } );
 
-        setLoading( false );
         const blocksData = response;
-        const rightAnswer = blocksData[attributes.block_id].rightAnswer ? true : false;
+        const rightAnswer = blocksData[attributes.block_id][0].rightAnswer ? true : false;
         const userAnswer = attributes.user_answer ? true : false;
         const answerIsCorrect =  rightAnswer === userAnswer;
-        setAttributes({ ...attributes, isCorrect:  answerIsCorrect })     
+        setAttributes({ ...attributes, isCorrect:  answerIsCorrect })
+        setLoading( false );     
     }    
 
     return (

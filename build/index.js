@@ -222,6 +222,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
 /* harmony import */ var _components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/ChoiceRepeater */ "./src/components/ChoiceRepeater.js");
 /* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/fill-blanks/editor.scss");
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/helpers */ "./src/utils/helpers.js");
+
 
 
 
@@ -241,33 +243,14 @@ function Edit({
       "id": clientId
     });
   }, []);
+  const rightQandAs = Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_7__["extractWrappedStrings"])(attributes.question, '*__', '__*');
 
   const handleQuestionChange = value => {
-    const qAndAs = getRightQandAs(value);
     setAttributes({
-      frontEndQuestion: qAndAs.question,
+      frontEndQuestion: rightQandAs.question,
       question: value,
-      rightAnswers: qAndAs.answers
+      rightAnswers: rightQandAs.answers
     });
-  };
-
-  const getRightQandAs = question => {
-    const openingWrapper = '*__';
-    const closingWrapper = '__*';
-    let questionCopy = question;
-    const answersArray = [];
-
-    while (questionCopy.indexOf(openingWrapper) && questionCopy.indexOf(closingWrapper) && questionCopy.indexOf(openingWrapper) < questionCopy.indexOf(closingWrapper)) {
-      const openingIndex = questionCopy.indexOf(openingWrapper);
-      const closingIndex = questionCopy.indexOf(closingWrapper);
-      answersArray.push(questionCopy.substring(openingIndex + openingWrapper.length, closingIndex));
-      questionCopy = questionCopy.substring(closingIndex + closingWrapper.length);
-    }
-
-    return {
-      answers: answersArray,
-      question: question.replaceAll(closingWrapper, '').replaceAll(openingWrapper, '')
-    };
   };
 
   const handleChoicesChange = wrongChoices => {
@@ -291,7 +274,7 @@ function Edit({
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "right-answer"
     }, answer));
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, "Write wrong answer choices:"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Write wrong (distractor) choices:')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: handleChoicesChange,
     choices: attributes.wrongChoices,
     showStatus: false
@@ -926,6 +909,39 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+/***/ }),
+
+/***/ "./src/utils/helpers.js":
+/*!******************************!*\
+  !*** ./src/utils/helpers.js ***!
+  \******************************/
+/*! exports provided: extractWrappedStrings */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractWrappedStrings", function() { return extractWrappedStrings; });
+const extractWrappedStrings = (text, opener, closer) => {
+  const answers = [];
+  const question = text.replaceAll(closer, '').replaceAll(opener, '');
+
+  if (typeof text !== 'string' || typeof opener !== 'string' || typeof closer !== 'string') {
+    return;
+  }
+
+  while (text.indexOf(opener) && text.indexOf(closer) && text.indexOf(opener) < text.indexOf(closer)) {
+    const openingIndex = text.indexOf(opener);
+    const closingIndex = text.indexOf(closer);
+    answers.push(text.substring(openingIndex + opener.length, closingIndex));
+    text = text.substring(closingIndex + closer.length);
+  }
+
+  return {
+    answers: answers,
+    question: question
+  };
+};
 
 /***/ }),
 

@@ -1,0 +1,27 @@
+{
+	"apiVersion": 2,
+	"name": "qa/matching-columns",
+	"title": "True or False Question",
+	"category": "widgets",
+	"icon": "smiley",
+	"description": "Matching columns question",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "questions-and-answers",
+	"editorStyle": "file:../../../build/index.css",
+	"style": "file:../../../build/style-index.css",
+	"attributes": {
+		"id": {
+			"type": "string",
+			"default": ""
+		},
+		"question": {
+			"type": "string"
+		},
+		"answerPairs": {
+			"type": "boolean",
+			"default": false
+		}
+	}
+}

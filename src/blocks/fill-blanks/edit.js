@@ -2,14 +2,14 @@ import { __ } from '@wordpress/i18n';
 import { 
 	Card,
 	CardHeader,
-	CardBody,
-	TextControl
+	CardBody
 } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
 import ChoiceRepeater from '../../components/ChoiceRepeater';
 import './editor.scss';
+import { extractWrappedStrings } from '../../utils/helpers';
 
 export default function Edit({ clientId, attributes, setAttributes }) {
 	const blockProps = useBlockProps();	
@@ -17,33 +17,13 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	useEffect(() => {
 		attributes.id === '' 
 		&& setAttributes( { "id": clientId } )
-	}, [])
+	}, []);
+
+	const rightQandAs = extractWrappedStrings( attributes.question, '*__', '__*');
 
 	const handleQuestionChange = (value) => {
-		const qAndAs = getRightQandAs( value );
-		setAttributes( { frontEndQuestion: qAndAs.question, question: value, rightAnswers:  qAndAs.answers } );
-	}
-
-	const getRightQandAs = ( question ) => {
-		const openingWrapper = '*__';
-		const closingWrapper = '__*';
-		let questionCopy = question;
-		const answersArray = [];
-		
-		while
-		( 
-			questionCopy.indexOf( openingWrapper ) 
-			&& questionCopy.indexOf( closingWrapper ) 
-			&& questionCopy.indexOf( openingWrapper ) < questionCopy.indexOf( closingWrapper )
-		) {			
-			const openingIndex = questionCopy.indexOf( openingWrapper );
-			const closingIndex = questionCopy.indexOf( closingWrapper );	
-			answersArray.push(questionCopy.substring( openingIndex + openingWrapper.length, closingIndex ) );
-			questionCopy = questionCopy.substring( closingIndex + closingWrapper.length );
-		}
-
-		return { answers: answersArray, question: question.replaceAll( closingWrapper, '' ).replaceAll( openingWrapper, '' ) }
-	}
+		setAttributes( { frontEndQuestion: rightQandAs.question, question: value, rightAnswers:  rightQandAs.answers } );
+	}	
 
 	const handleChoicesChange = ( wrongChoices ) => {
 		setAttributes( { wrongChoices } );
@@ -63,7 +43,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<div className="all-answers">
 						The right answers you chose are, in that order:
 						{
-							attributes.rightAnswers.map((answer) => {
+							attributes.rightAnswers.map( (answer) => {
 								return (
 									<div className="answers-partial">
 										<div className="right-answer">
@@ -73,7 +53,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 								)
 							})
 						}
-						<h3>Write wrong answer choices:</h3>
+						<h3>{ __( 'Write wrong (distractor) choices:' ) }</h3>
 						<ChoiceRepeater 
 							onChange={ handleChoicesChange } 
 							choices={ attributes.wrongChoices }

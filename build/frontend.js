@@ -161,14 +161,14 @@ const FrontEndRender = ({
         message: error.message
       };
     });
-    setLoading(false);
-    const blocksData = JSON.parse(response);
-    const rightAnswer = blocksData[attributes.block_id].rightAnswer ? true : false;
+    const blocksData = response;
+    const rightAnswer = blocksData[attributes.block_id][0].rightAnswer ? true : false;
     const userAnswer = attributes.user_answer ? true : false;
     const answerIsCorrect = rightAnswer === userAnswer;
     setAttributes({ ...attributes,
       isCorrect: answerIsCorrect
     });
+    setLoading(false);
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {

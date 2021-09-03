@@ -23,7 +23,8 @@
 function qas_questions_and_answers_blocks_init() {
     
 	register_block_type_from_metadata( __DIR__ . '/src/blocks/multiple-choice');
-    register_block_type_from_metadata( __DIR__ . '/src/blocks/fill-blanks');    
+    register_block_type_from_metadata( __DIR__ . '/src/blocks/fill-blanks');
+    register_block_type_from_metadata( __DIR__ . '/src/blocks/matching-columns'); 
 	register_block_type_from_metadata( __DIR__ . '/src/blocks/true-false', array('render_callback' => 'qa_render_blockmarkup'));    
 }
 add_action( 'init', 'qas_questions_and_answers_blocks_init' );
