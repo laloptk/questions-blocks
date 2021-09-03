@@ -89,7 +89,7 @@ function update_qas( WP_REST_Request $request ) : WP_REST_Response {
         }
     }
     
-    $blocks = json_encode( $blocks_by_id );
+    $blocks = $blocks_by_id;
 
     return new WP_REST_Response($blocks, 200 );
 }
@@ -118,7 +118,6 @@ add_action( 'wp_enqueue_scripts', 'qas_enqueue_files' );
 
 function qas_enqueue_blocks_scripts() {
     $asset_file = require plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
-    var_dump($asset_file);
-    wp_enqueue_script( 'qas-main', plugins_url( '/build/index.js', __FILE__ ), $asset_file['dependencies'], 1.0, false);
+    wp_enqueue_script( 'qas-main', plugins_url( '/build/index.js', __FILE__ ), $asset_file['dependencies'], $asset_file['version'], false);
 }
 add_action( 'enqueue_block_editor_assets', 'qas_enqueue_blocks_scripts');

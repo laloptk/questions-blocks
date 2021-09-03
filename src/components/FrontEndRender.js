@@ -32,7 +32,7 @@ const FrontEndRender = ( { dataAttributes } ) => {
         } );
 
         setLoading( false );
-        const blocksData = JSON.parse(response);
+        const blocksData = response;
         const rightAnswer = blocksData[attributes.block_id].rightAnswer ? true : false;
         const userAnswer = attributes.user_answer ? true : false;
         const answerIsCorrect =  rightAnswer === userAnswer;
