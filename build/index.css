@@ -29,5 +29,13 @@
 .wp-block-qa-questions-and-answers {
   border: 1px dotted #f00;
 }
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-qa-questions-and-answers {
+  border: 1px dotted #f00;
+}
 
 /*# sourceMappingURL=index.css.map*/

@@ -8,8 +8,8 @@ import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
 import ChoiceRepeater from '../../components/ChoiceRepeater';
-import './editor.scss';
 import { extractWrappedStrings } from '../../utils/helpers';
+import './editor.scss';
 
 export default function Edit({ clientId, attributes, setAttributes }) {
 	const blockProps = useBlockProps();	

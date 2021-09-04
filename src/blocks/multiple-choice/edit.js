@@ -1,9 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { 
-	Card,
-	CardHeader,
-	CardBody
-} from '@wordpress/components';
+import { Card, CardHeader, CardBody } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';

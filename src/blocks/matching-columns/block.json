@@ -1,10 +1,10 @@
 {
 	"apiVersion": 2,
 	"name": "qa/matching-columns",
-	"title": "True or False Question",
+	"title": "Matching Columns Question",
 	"category": "widgets",
 	"icon": "smiley",
-	"description": "Matching columns question",
+	"description": "Place matching values in the columns right and left.",
 	"supports": {
 		"html": false
 	},
@@ -20,8 +20,8 @@
 			"type": "string"
 		},
 		"answerPairs": {
-			"type": "boolean",
-			"default": false
+			"type": "array",
+			"default": []
 		}
 	}
 }
