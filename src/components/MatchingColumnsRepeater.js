@@ -4,19 +4,19 @@ import ChoiceRepeater from './ChoiceRepeater';
 const MatchingColumnsRepeater = ( { onChange, answers } ) => {
     
     const handleAddRow = () => {
-        onChange( [ ...answers, { 'to-match': '', 'match': [['', true]] } ] );
+        onChange( [ ...answers, { 'to-match': '', 'match': [ [ '', true ] ] } ] );
     }
 
     const handleDeleteColumns = ( index ) => {
-        onChange([ ...answers.slice(0, index), ...answers.slice(index + 1) ]);
+        onChange( [ ...answers.slice( 0, index ), ...answers.slice( index + 1 ) ] );
     }
 
     const handleOnChangeColumns = ( value, index, column ) => {
-        onChange([ ...answers.slice(0, index), {...answers[index], [column]: value }, ...answers.slice(index + 1) ]);
+        onChange( [ ...answers.slice( 0, index ), { ...answers[index], [column]: value }, ...answers.slice( index + 1 ) ] );
     }
 
     const handleChoiceRepetition = ( choices, index ) => {
-        onChange([ ...answers.slice(0, index), { 'to-match': answers[index]['to-match'], 'match': choices }, ...answers.slice(index + 1) ])
+        onChange([ ...answers.slice( 0, index ), { 'to-match': answers[index]['to-match'], 'match': choices }, ...answers.slice( index + 1 ) ])
     }
 
     return (

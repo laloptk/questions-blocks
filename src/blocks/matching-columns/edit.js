@@ -33,7 +33,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h3>{ __('Matching Columns Q&A') }</h3>
 				</CardHeader>
 				<CardBody size="large">
-					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
+					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question } />
 					<MatchingColumnsRepeater onChange={ handleRepetition } answers={ attributes.answerPairs } />
 				</CardBody>
 			</Card>				

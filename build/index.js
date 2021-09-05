@@ -977,7 +977,7 @@ const ChoiceRepeater = ({
   choices,
   onChange,
   showStatus = true,
-  buttonTxt = 'Delete Choice'
+  buttonTxt = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Delete Choice')
 }) => {
   const handleAddChoice = () => {
     onChange([...choices, ['', false]]);

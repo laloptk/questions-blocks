@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl, Button, ToggleControl } from '@wordpress/components';
 
-const ChoiceRepeater = ( { choices, onChange, showStatus = true, buttonTxt = 'Delete Choice' } ) => {
+const ChoiceRepeater = ( { choices, onChange, showStatus = true, buttonTxt = __( 'Delete Choice' ) } ) => {
 
     const handleAddChoice = () => {
         onChange( [ ...choices, ['', false] ] );
