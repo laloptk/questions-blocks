@@ -25,7 +25,7 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	const handleRepetition = ( pairs ) => {
 		setAttributes( { answerPairs: pairs } )
 	}
-	console.log(attributes.answerPairs);
+	console.log( attributes );
 	return (
 		<div { ...blockProps }>
 			<Card size="large">

@@ -38,4 +38,56 @@
   border: 1px dotted #f00;
 }
 
+.matching-columns {
+  margin-top: 50px;
+  padding-right: 25px;
+}
+.matching-columns__item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+  border: 1px dotted #999999;
+  padding: 10px;
+}
+.matching-columns__item--col {
+  width: calc(50% - 5px);
+  padding: 10px;
+  border: 1px dotted #999999;
+}
+.matching-columns__item--col.delete {
+  position: absolute;
+  right: -25px;
+  top: -35px;
+  width: 25px;
+  height: 25px;
+  border: 0 dashed transparent;
+}
+.matching-columns__item--col.delete button {
+  padding: 0;
+}
+.matching-columns__item--col .choice {
+  border-bottom: 0 solid transparent;
+  position: relative;
+  padding-bottom: 10px;
+}
+.matching-columns__item--col .choice__controls {
+  text-align: right;
+  border-bottom: 0 solid transparent;
+}
+.matching-columns__item--col .choice__controls button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  color: #999999;
+  width: 35px;
+  height: 33px;
+}
+.matching-columns__item--col .choice__controls button:hover {
+  background-color: transparent !important;
+  color: rgba(153, 153, 153, 0.6) !important;
+}
+
 /*# sourceMappingURL=index.css.map*/

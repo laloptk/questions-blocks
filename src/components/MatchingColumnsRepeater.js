@@ -1,18 +1,22 @@
 import { Button, TextControl } from '@wordpress/components';
+import ChoiceRepeater from './ChoiceRepeater';
 
-const MatchingColumnsRepeater = ( props ) => {
-    const { onChange, answers } = props;
-
-    const handleAdd = () => {
-        onChange([ ...answers, { 'to-match': '', 'match': ''}]);
+const MatchingColumnsRepeater = ( { onChange, answers } ) => {
+    
+    const handleAddRow = () => {
+        onChange( [ ...answers, { 'to-match': '', 'match': [['', true]] } ] );
     }
 
-    const handleDelete = ( index ) => {
+    const handleDeleteColumns = ( index ) => {
         onChange([ ...answers.slice(0, index), ...answers.slice(index + 1) ]);
     }
 
-    const handleOnChange = ( value, index, column ) => {
+    const handleOnChangeColumns = ( value, index, column ) => {
         onChange([ ...answers.slice(0, index), {...answers[index], [column]: value }, ...answers.slice(index + 1) ]);
+    }
+
+    const handleChoiceRepetition = ( choices, index ) => {
+        onChange([ ...answers.slice(0, index), { 'to-match': answers[index]['to-match'], 'match': choices }, ...answers.slice(index + 1) ])
     }
 
     return (
@@ -21,17 +25,33 @@ const MatchingColumnsRepeater = ( props ) => {
                 answers.map( ( pair, index ) => {
                     return(
                         <div className="matching-columns__item">
-                            <TextControl onChange={ ( value ) => handleOnChange( value, index, 'to-match') } value={ pair['to-match'] } />
-                            <TextControl onChange={ ( value ) => handleOnChange( value, index, 'match') } value={ pair['match'] } />
-                            <Button onClick={ () => handleDelete( index ) } >Delete</Button>
+                            <div className="matching-columns__item--col to-match">
+                                <TextControl 
+                                    onChange={ ( value ) => handleOnChangeColumns( value, index, 'to-match') } 
+                                    value={ pair['to-match'] } 
+                                />
+                            </div>
+                            <div className="matching-columns__item--col match">
+                                <ChoiceRepeater 
+                                    onChange={ ( choices ) => handleChoiceRepetition( choices, index ) }
+                                    choices={ pair['match'] } 
+                                    showStatus={ false }
+                                    buttonTxt={ <span class='dashicons dashicons-dismiss'></span> }
+                                />
+                            </div>
+                            <div className="matching-columns__item--col delete">
+                                <Button onClick={ () => handleDeleteColumns( index ) } >
+                                    <span class="dashicons dashicons-dismiss"></span>
+                                </Button>
+                            </div>
                         </div>
                     )
                 })
             }
 
-            <Button onClick={ handleAdd } >Add Matching Columns</Button>
+            <Button className="is-primary" onClick={ handleAddRow } >Add Row</Button>
         </div>
     )
 }
 
-export default MatchingColumnsRepeater
+export default MatchingColumnsRepeater;

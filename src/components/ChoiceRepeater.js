@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl, Button, ToggleControl } from '@wordpress/components';
 
-const ChoiceRepeater = ( { choices, onChange, showStatus = true } ) => {
+const ChoiceRepeater = ( { choices, onChange, showStatus = true, buttonTxt = 'Delete Choice' } ) => {
 
     const handleAddChoice = () => {
         onChange( [ ...choices, ['', false] ] );
@@ -47,7 +47,7 @@ const ChoiceRepeater = ( { choices, onChange, showStatus = true } ) => {
                                     className="is-primary" 
                                     onClick={ () => handleDeleteChoice( index ) } 
                                 >
-                                    { __( 'Delete Choice' ) }
+                                    { buttonTxt }
                                 </Button>
                             </div>
                         </div>

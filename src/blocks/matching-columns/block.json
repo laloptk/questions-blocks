@@ -17,7 +17,8 @@
 			"default": ""
 		},
 		"question": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"answerPairs": {
 			"type": "array",

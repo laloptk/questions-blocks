@@ -463,7 +463,7 @@ function Edit({
     });
   };
 
-  console.log(attributes.answerPairs);
+  console.log(attributes);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "large"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Matching Columns Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
@@ -976,7 +976,8 @@ __webpack_require__.r(__webpack_exports__);
 const ChoiceRepeater = ({
   choices,
   onChange,
-  showStatus = true
+  showStatus = true,
+  buttonTxt = 'Delete Choice'
 }) => {
   const handleAddChoice = () => {
     onChange([...choices, ['', false]]);
@@ -1012,7 +1013,7 @@ const ChoiceRepeater = ({
     }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
       className: "is-primary",
       onClick: () => handleDeleteChoice(index)
-    }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Delete Choice'))));
+    }, buttonTxt)));
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     className: "is-primary",
     onClick: handleAddChoice
@@ -1036,29 +1037,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ChoiceRepeater__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ChoiceRepeater */ "./src/components/ChoiceRepeater.js");
 
 
 
-const MatchingColumnsRepeater = props => {
-  const {
-    onChange,
-    answers
-  } = props;
 
-  const handleAdd = () => {
+const MatchingColumnsRepeater = ({
+  onChange,
+  answers
+}) => {
+  const handleAddRow = () => {
     onChange([...answers, {
       'to-match': '',
-      'match': ''
+      'match': [['', true]]
     }]);
   };
 
-  const handleDelete = index => {
+  const handleDeleteColumns = index => {
     onChange([...answers.slice(0, index), ...answers.slice(index + 1)]);
   };
 
-  const handleOnChange = (value, index, column) => {
+  const handleOnChangeColumns = (value, index, column) => {
     onChange([...answers.slice(0, index), { ...answers[index],
       [column]: value
+    }, ...answers.slice(index + 1)]);
+  };
+
+  const handleChoiceRepetition = (choices, index) => {
+    onChange([...answers.slice(0, index), {
+      'to-match': answers[index]['to-match'],
+      'match': choices
     }, ...answers.slice(index + 1)]);
   };
 
@@ -1067,18 +1075,31 @@ const MatchingColumnsRepeater = props => {
   }, answers.map((pair, index) => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "matching-columns__item"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "matching-columns__item--col to-match"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["TextControl"], {
-      onChange: value => handleOnChange(value, index, 'to-match'),
+      onChange: value => handleOnChangeColumns(value, index, 'to-match'),
       value: pair['to-match']
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["TextControl"], {
-      onChange: value => handleOnChange(value, index, 'match'),
-      value: pair['match']
-    }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-      onClick: () => handleDelete(index)
-    }, "Delete"));
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "matching-columns__item--col match"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      onChange: choices => handleChoiceRepetition(choices, index),
+      choices: pair['match'],
+      showStatus: false,
+      buttonTxt: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+        class: "dashicons dashicons-dismiss"
+      })
+    })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+      className: "matching-columns__item--col delete"
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+      onClick: () => handleDeleteColumns(index)
+    }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      class: "dashicons dashicons-dismiss"
+    }))));
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Button"], {
-    onClick: handleAdd
-  }, "Add Matching Columns"));
+    className: "is-primary",
+    onClick: handleAddRow
+  }, "Add Row"));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (MatchingColumnsRepeater);
