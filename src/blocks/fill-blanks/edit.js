@@ -31,17 +31,21 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 
 	return (
 		<div { ...blockProps }>
-			<Card size="large">
+			<Card size="small">
 				<CardHeader>
 					<h3>{ __('Fill Blanks Q&A') }</h3>
 				</CardHeader>
-				<CardBody size="large">
-					<p>
-						Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*
-					</p>
+				<CardBody size="small">
+					<div className="qa-header-note">
+						<p>
+							{ __( 'Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*' ) }
+						</p>
+					</div>
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<div className="all-answers">
-						The right answers you chose are, in that order:
+						<div className="qa-answers-note">
+							{ __( 'The right answers you chose are, in that order:') }
+						</div>
 						{
 							attributes.rightAnswers.map( (answer) => {
 								return (
@@ -53,12 +57,15 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 								)
 							})
 						}
-						<h3>{ __( 'Write wrong (distractor) choices:' ) }</h3>
-						<ChoiceRepeater 
-							onChange={ handleChoicesChange } 
-							choices={ attributes.wrongChoices }
-							showStatus={ false }
-						/>
+						<div className="qa-wrong-answers">
+							<h3><strong>{ __( 'Write wrong (distractor) choices:' )}</strong></h3>
+							<ChoiceRepeater 
+								onChange={ handleChoicesChange } 
+								choices={ attributes.wrongChoices }
+								showStatus={ false }
+								buttonTxt={ <span class='dashicons dashicons-dismiss'></span> }
+							/>
+						</div>
 					</div>
 				</CardBody>
 			</Card>				

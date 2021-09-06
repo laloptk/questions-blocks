@@ -4,6 +4,66 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-qa-questions-and-answers {
-	border: 1px dotted #f00;
+.wp-block-qa-fill-blanks {
+	.components-card {
+		&__header {
+			h3 {
+				font-size: 28px;
+				margin: 10px 0;
+			}
+		}
+	}
+
+	.qa-header-note {
+		font-size: 14px;
+	}
+
+	.qa-answers-note {
+		font-size: 14px;
+	}
+
+	.all-answers {
+		.answers-partial {
+			display: inline-block;
+
+			.right-answer {
+				font-size: 14px;
+				background-color: #eaeaea;
+				border-radius: 3px;
+				padding: 5px;
+				line-height: 1;
+				margin: 3px;
+			}
+		}
+
+		.qa-wrong-answers {
+			h3 {
+				font-size: 20px;
+			}
+
+			.choice {
+				position: relative;
+				padding-bottom: 10px;
+
+				&__controls {
+					border: 0 solid transparent;
+
+					button {
+						position: absolute;
+						top: 0;
+						right: 0;
+						background-color: transparent;
+						color: #999999;
+						width: 35px;
+						height: 33px;
+
+						&:hover {
+							background-color: transparent !important;
+							color: rgba(#999999, 0.6) !important;
+						}
+					}
+				}
+			}
+		}
+	}
 }

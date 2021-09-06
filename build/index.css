@@ -3,78 +3,65 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-qa-questions-and-answers {
-  border: 1px dotted #f00;
+.wp-block-qa-multiple-choice .components-card__header h3 {
+  font-size: 28px;
+  margin: 10px 0;
 }
-
-.qa-repeated__item {
+.wp-block-qa-multiple-choice .qa-repeated__item {
   display: flex;
 }
-.qa-repeated__item--close {
+.wp-block-qa-multiple-choice .qa-repeated__item--close {
   opacity: 0.6;
 }
-/**
- * The following styles get applied inside the editor only.
- *
- * Replace them with your own styles or remove the file completely.
- */
-.wp-block-qa-questions-and-answers {
-  border: 1px dotted #f00;
+.wp-block-qa-multiple-choice .qa-multiple-choices h3 {
+  font-size: 20px;
 }
 /**
  * The following styles get applied inside the editor only.
  *
  * Replace them with your own styles or remove the file completely.
  */
-.wp-block-qa-questions-and-answers {
-  border: 1px dotted #f00;
+.wp-block-qa-true-false .components-card__header h3 {
+  font-size: 28px;
+  margin: 10px 0;
 }
 /**
  * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
  */
-.wp-block-qa-questions-and-answers {
-  border: 1px dotted #f00;
+.wp-block-qa-fill-blanks .components-card__header h3 {
+  font-size: 28px;
+  margin: 10px 0;
 }
-
-.matching-columns {
-  margin-top: 50px;
-  padding-right: 25px;
+.wp-block-qa-fill-blanks .qa-header-note {
+  font-size: 14px;
 }
-.matching-columns__item {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  margin-top: 30px;
-  position: relative;
-  border: 1px dotted #999999;
-  padding: 10px;
+.wp-block-qa-fill-blanks .qa-answers-note {
+  font-size: 14px;
 }
-.matching-columns__item--col {
-  width: calc(50% - 5px);
-  padding: 10px;
-  border: 1px dotted #999999;
+.wp-block-qa-fill-blanks .all-answers .answers-partial {
+  display: inline-block;
 }
-.matching-columns__item--col.delete {
-  position: absolute;
-  right: -25px;
-  top: -35px;
-  width: 25px;
-  height: 25px;
-  border: 0 dashed transparent;
+.wp-block-qa-fill-blanks .all-answers .answers-partial .right-answer {
+  font-size: 14px;
+  background-color: #eaeaea;
+  border-radius: 3px;
+  padding: 5px;
+  line-height: 1;
+  margin: 3px;
 }
-.matching-columns__item--col.delete button {
-  padding: 0;
+.wp-block-qa-fill-blanks .all-answers .qa-wrong-answers h3 {
+  font-size: 20px;
 }
-.matching-columns__item--col .choice {
-  border-bottom: 0 solid transparent;
+.wp-block-qa-fill-blanks .all-answers .qa-wrong-answers .choice {
   position: relative;
   padding-bottom: 10px;
 }
-.matching-columns__item--col .choice__controls {
-  text-align: right;
-  border-bottom: 0 solid transparent;
+.wp-block-qa-fill-blanks .all-answers .qa-wrong-answers .choice__controls {
+  border: 0 solid transparent;
 }
-.matching-columns__item--col .choice__controls button {
+.wp-block-qa-fill-blanks .all-answers .qa-wrong-answers .choice__controls button {
   position: absolute;
   top: 0;
   right: 0;
@@ -83,7 +70,65 @@
   width: 35px;
   height: 33px;
 }
-.matching-columns__item--col .choice__controls button:hover {
+.wp-block-qa-fill-blanks .all-answers .qa-wrong-answers .choice__controls button:hover {
+  background-color: transparent !important;
+  color: rgba(153, 153, 153, 0.6) !important;
+}
+/**
+ * The following styles get applied inside the editor only.
+ */
+.wp-block-qa-matching-columns .components-card__header h3 {
+  font-size: 28px;
+  margin: 10px 0;
+}
+.wp-block-qa-matching-columns .matching-columns {
+  margin-top: 50px;
+  padding-right: 25px;
+}
+.wp-block-qa-matching-columns .matching-columns__item {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+  border: 1px dotted #999999;
+  padding: 10px;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col {
+  width: calc(50% - 5px);
+  padding: 10px;
+  border: 1px dotted #999999;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col.delete {
+  position: absolute;
+  right: -25px;
+  top: -35px;
+  width: 25px;
+  height: 25px;
+  border: 0 dashed transparent;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col.delete button {
+  padding: 0;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col .choice {
+  border-bottom: 0 solid transparent;
+  position: relative;
+  padding-bottom: 10px;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col .choice__controls {
+  text-align: right;
+  border-bottom: 0 solid transparent;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col .choice__controls button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  color: #999999;
+  width: 35px;
+  height: 33px;
+}
+.wp-block-qa-matching-columns .matching-columns__item--col .choice__controls button:hover {
   background-color: transparent !important;
   color: rgba(153, 153, 153, 0.6) !important;
 }

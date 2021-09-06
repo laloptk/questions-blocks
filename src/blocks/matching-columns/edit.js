@@ -25,14 +25,14 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 	const handleRepetition = ( pairs ) => {
 		setAttributes( { answerPairs: pairs } )
 	}
-	
+
 	return (
 		<div { ...blockProps }>
-			<Card size="large">
+			<Card size="small">
 				<CardHeader>
 					<h3>{ __('Matching Columns Q&A') }</h3>
 				</CardHeader>
-				<CardBody size="large">
+				<CardBody size="small">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question } />
 					<MatchingColumnsRepeater onChange={ handleRepetition } answers={ attributes.answerPairs } />
 				</CardBody>

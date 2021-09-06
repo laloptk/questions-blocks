@@ -274,25 +274,34 @@ function Edit({
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Fill Blanks Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
-    size: "large"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, "Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*"), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    size: "small"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-header-note"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("p", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Write a sentence with blanks to fill. The blanks should be written like this: *__right answer__*'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "all-answers"
-  }, "The right answers you chose are, in that order:", attributes.rightAnswers.map(answer => {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-answers-note"
+  }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('The right answers you chose are, in that order:')), attributes.rightAnswers.map(answer => {
     return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "answers-partial"
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
       className: "right-answer"
     }, answer));
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Write wrong (distractor) choices:')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-wrong-answers"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Write wrong (distractor) choices:'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: handleChoicesChange,
     choices: attributes.wrongChoices,
-    showStatus: false
-  })))));
+    showStatus: false,
+    buttonTxt: Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
+      class: "dashicons dashicons-dismiss"
+    })
+  }))))));
 }
 
 /***/ }),
@@ -464,9 +473,9 @@ function Edit({
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Matching Columns Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
@@ -645,16 +654,18 @@ function Edit({
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Multiple Choice Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h4", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Place the answer multiple choices:')), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-multiple-choices"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Place the answer multiple choices:'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: handleChoicesChange,
     choices: attributes.choices
-  }))));
+  })))));
 }
 
 /***/ }),
@@ -826,9 +837,9 @@ function Edit({
   };
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('True or false Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
-    size: "large"
+    size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
     text: attributes.question

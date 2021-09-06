@@ -28,11 +28,11 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 
 	return (
 		<div { ...blockProps }>
-			<Card size="large">
+			<Card size="small">
 				<CardHeader>
-					<h3>{ __('True or false Q&A') }</h3>
+					<h3>{ __( 'True or false Q&A' ) }</h3>
 				</CardHeader>
-				<CardBody size="large">
+				<CardBody size="small">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
 					<TrueFalseInput handleChange={ handleAnswerChange } answer={ attributes.rightAnswer } />
 				</CardBody>

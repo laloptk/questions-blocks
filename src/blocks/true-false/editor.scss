@@ -4,6 +4,13 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-qa-questions-and-answers {
-	border: 1px dotted #f00;
+.wp-block-qa-true-false {
+	.components-card {
+		&__header {
+			h3 {
+				font-size: 28px;
+				margin: 10px 0;
+			}
+		}
+	}
 }

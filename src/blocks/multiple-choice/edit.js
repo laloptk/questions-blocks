@@ -24,17 +24,19 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 
 	return (
 		<div { ...blockProps }>
-			<Card size="large">
+			<Card size="small">
 				<CardHeader>
 					<h3>{ __( 'Multiple Choice Q&A' ) }</h3>
 				</CardHeader>
-				<CardBody size="large">
+				<CardBody size="small">
 					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
-					<h4>{ __( 'Place the answer multiple choices:' ) }</h4>					
-					<ChoiceRepeater 
-						onChange={ handleChoicesChange } 
-						choices={ attributes.choices } 
-					/>									
+					<div className="qa-multiple-choices">
+						<h3><strong>{ __( 'Place the answer multiple choices:' ) }</strong></h3>					
+						<ChoiceRepeater 
+							onChange={ handleChoicesChange } 
+							choices={ attributes.choices } 
+						/>
+					</div>									
 				</CardBody>
 			</Card>				
 		</div>

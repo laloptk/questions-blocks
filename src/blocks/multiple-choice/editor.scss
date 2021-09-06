@@ -4,14 +4,27 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-.wp-block-qa-questions-and-answers {
-	border: 1px dotted #f00;
-}
+.wp-block-qa-multiple-choice {
+	.components-card {
+		&__header {
+			h3 {
+				font-size: 28px;
+				margin: 10px 0;
+			}
+		}
+	}
 
-.qa-repeated__item {
-	display: flex;
+	.qa-repeated__item {
+		display: flex;
 
-	&--close {
-		opacity: 0.6;
+		&--close {
+			opacity: 0.6;
+		}
+	}
+
+	.qa-multiple-choices {
+		h3 {
+			font-size: 20px;
+		}
 	}
 }
