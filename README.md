@@ -10,7 +10,7 @@ Questions and Answers plugin
 
 ## Description
 
-This is a WordPress plugin that is still in the making. The plan is to create several question and answer blocks. The editor should be able to place questions with a respecttive right answer, and the user should be able to respond to those questions in the frontend of the website.
+This is a WordPress plugin that is still in the making. The plan is to create several question and answer blocks. The editor should be able to place questions with a respective right answer, and the user should be able to respond to those questions in the frontend of the website.
 
 The planned blocks, until now, are the following:
 
@@ -22,7 +22,7 @@ The planned blocks, until now, are the following:
 
 **NOTE**: This plugin will probably have more block types than the described above.
 
-The true or false block is already created and working. It will be used to analyze the structure of question blocks in order to extract patterns and create reusable components and functions that every block can use.
+The code for the backend part of the blocks is ready, in the front end, only the True/False block is vailable for the moment.
 
 ## Planned development phases
 
@@ -34,9 +34,10 @@ The third phase will connect the blocks with the database: When a logged in user
 
 ## TO DO (first phase)
 
-1. Refactor the "True or false" block (The Edit.js and frontend.js) to extract reusable functions and components, and make those components and function available to the other blocks.
-1. Check and improve the architecture of the plugin. I'm happy with the current architecture, but there is some inconsistencies and other things that can be better.
-1. Once 1 and 2 are ready, start building the other question blocks.
+1. ~~Refactor the "True or false" block (The Edit.js and frontend.js) to extract reusable functions and components, and make those components and function available to the other blocks.~~
+1. ~~Check and improve the architecture of the plugin. I'm happy with the current architecture, but there is some inconsistencies and other things that can be better.~~
+1. ~~Once 1 and 2 are ready, start building the other question blocks.~~
+1. Write the code for the front end part of the blocks
 
 ## Installation
 
