@@ -22,6 +22,10 @@
 		"rightAnswer": {
 			"type": "boolean",
 			"default": false
+		},
+		"block_name": {
+			"type": "string",
+			"default": ""
 		}
 	}
 }

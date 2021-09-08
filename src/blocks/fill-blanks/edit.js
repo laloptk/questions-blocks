@@ -11,12 +11,12 @@ import ChoiceRepeater from '../../components/ChoiceRepeater';
 import { extractWrappedStrings } from '../../utils/helpers';
 import './editor.scss';
 
-export default function Edit({ clientId, attributes, setAttributes }) {
+export default function Edit( { name, clientId, attributes, setAttributes } ) {
 	const blockProps = useBlockProps();	
 
 	useEffect(() => {
-		attributes.id === '' 
-		&& setAttributes( { "id": clientId } )
+		setAttributes( { block_name: name } );
+		attributes.id === '' && setAttributes( { "id": clientId } )
 	}, []);
 
 	const rightQandAs = extractWrappedStrings( attributes.question, '*__', '__*');

@@ -6,16 +6,17 @@ import QuestionInput from '../../components/QuestionInput';
 import ChoiceRepeater from '../../components/ChoiceRepeater';
 import './editor.scss';
 
-export default function Edit({ clientId, attributes, setAttributes }) {
-	const blockProps = useBlockProps();	
+export default function Edit({ name, clientId, attributes, setAttributes }) {
+	const blockProps = useBlockProps();
+	const { id, question, choices } = attributes;	
 
 	useEffect( () => {
-		attributes.id === '' 
-		&& setAttributes( { "id": clientId } )
+		setAttributes( { block_name: name } );
+		id === '' && setAttributes( { id: clientId } );
 	}, [])
 
 	const handleQuestionChange = ( value ) => {
-		setAttributes( { "question": value } )
+		setAttributes( { question: value } )
 	}              
 
 	const handleChoicesChange = ( choices ) => {
@@ -29,12 +30,12 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h3>{ __( 'Multiple Choice Q&A' ) }</h3>
 				</CardHeader>
 				<CardBody size="small">
-					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
+					<QuestionInput handleChange={ handleQuestionChange } text={ question }/>
 					<div className="qa-multiple-choices">
 						<h3><strong>{ __( 'Place the answer multiple choices:' ) }</strong></h3>					
 						<ChoiceRepeater 
 							onChange={ handleChoicesChange } 
-							choices={ attributes.choices } 
+							choices={ choices } 
 						/>
 					</div>									
 				</CardBody>

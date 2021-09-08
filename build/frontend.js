@@ -86,36 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/blocks/true-false/frontend.js":
-/*!*******************************************!*\
-  !*** ./src/blocks/true-false/frontend.js ***!
-  \*******************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/FrontEndRender */ "./src/components/FrontEndRender.js");
-
-
-
-const questionClass = '.qa-frontend-question-block';
-const questions = document.querySelectorAll(questionClass);
-questions.forEach(question => {
-  const attributes = {
-    block_id: question.dataset.id,
-    post_id: parseInt(question.dataset.post_id, 10),
-    question: question.dataset.question
-  };
-  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    dataAttributes: attributes
-  }), question);
-});
-
-/***/ }),
-
 /***/ "./src/components/FrontEndRender.js":
 /*!******************************************!*\
   !*** ./src/components/FrontEndRender.js ***!
@@ -127,10 +97,8 @@ questions.forEach(question => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
-/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _frontend_TrueFalseUserAnswer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./frontend/TrueFalseUserAnswer */ "./src/components/frontend/TrueFalseUserAnswer.js");
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/helpers */ "./src/utils/helpers.js");
 
 
 
@@ -139,78 +107,100 @@ __webpack_require__.r(__webpack_exports__);
 const FrontEndRender = ({
   dataAttributes
 }) => {
+  console.log(dataAttributes);
   const [attributes, setAttributes] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])({
-    block_id: 0
+    block_id: 0,
+    post_id: 0,
+    question: '',
+    block_name: ''
   });
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
     setAttributes({ ...dataAttributes
     });
   }, []);
+  const [userAnswer, setUserAnswer] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [answerIsCorrect, setIsCorrect] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
   const [isLoading, setLoading] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
 
-  const getBlocksData = async () => {
+  const apiCall = async () => {
     setLoading(true);
-    const response = await _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
-      path: `${qasAPIRoute}/${dataAttributes.post_id}`,
-      method: 'POST'
-    }).then(success => {
-      return success;
-    }).catch(error => {
-      return {
-        type: 'error',
-        message: error.message
-      };
-    });
-    const blocksData = response;
-    const rightAnswer = blocksData[attributes.block_id][0].rightAnswer ? true : false;
-    const userAnswer = attributes.user_answer ? true : false;
-    const answerIsCorrect = rightAnswer === userAnswer;
-    setAttributes({ ...attributes,
-      isCorrect: answerIsCorrect
-    });
+    const response = await Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_2__["getBlocksData"])(`${qasAPIRoute}/${dataAttributes.post_id}`, 'POST');
+    const rightAnswer = response[attributes.block_id][0]['attrs']['rightAnswer'] === true ? true : false;
+    setIsCorrect(userAnswer === 'true' === rightAnswer);
     setLoading(false);
   };
 
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, attributes.block_name === 'qa/true-false' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_TrueFalseUserAnswer__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    isCorrect: answerIsCorrect,
+    question: attributes.question,
+    userAnswer: userAnswer,
+    loading: isLoading,
+    blocksData: apiCall,
+    onChange: setUserAnswer
+  }), attributes.block_name === 'qa/fill-blanks' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Fill Blanks"), attributes.block_name === 'qa/matching-columns' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Matching Columns"), attributes.block_name === 'qa/multiple-choice' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Multiple Choice"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (FrontEndRender);
+
+/***/ }),
+
+/***/ "./src/components/frontend/TrueFalseUserAnswer.js":
+/*!********************************************************!*\
+  !*** ./src/components/frontend/TrueFalseUserAnswer.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/helpers */ "./src/utils/helpers.js");
+
+
+
+
+
+const TrueFalseUserAnswer = props => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
-    className: ".qa-frontend",
-    style: attributes.isCorrect === false ? {
+    className: "qa-frontend",
+    style: props.isCorrect === false ? {
       backgroundColor: '#FF7F7F'
-    } : attributes.isCorrect === true ? {
+    } : props.isCorrect === true ? {
       backgroundColor: '#98FB98'
     } : {
       backgroundColor: 'transparent'
     }
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "qa-frontend__question"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, attributes.question)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, props.question)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "qa-frontend__answer"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["RadioControl"], {
-    label: "Answer",
-    help: attributes.user_answer === undefined ? "Select an answer" : attributes.user_answer ? "You selected 'True' as the right answer" : "You selected 'False' as the right answer",
-    selected: attributes.user_answer,
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Answer'),
+    help: props.userAnswer === undefined ? "Select an answer" : props.userAnswer ? "You selected 'True' as the right answer" : "You selected 'False' as the right answer",
+    selected: props.userAnswer,
     options: [{
-      label: 'True',
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('True'),
       value: 'true'
     }, {
-      label: 'False',
-      value: ''
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('False'),
+      value: 'false'
     }],
-    onChange: value => {
-      setAttributes({ ...attributes,
-        user_answer: value,
-        isCorrect: null
-      });
-    }
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    onChange: value => props.onChange(value)
+  })), Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["answerNotice"])(props.isCorrect), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     class: "qa-frontend__send"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
     variant: "secondary",
-    onClick: getBlocksData,
-    disabled: isLoading || attributes.user_answer === undefined
-  }, attributes.user_answer === undefined ? 'Select an Answer Above' : isLoading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null) : 'Send Answer')));
+    onClick: props.blocksData,
+    disabled: (props.loading || props.userAnswer === '') === true
+  }, props.userAnswer === '' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Select an Answer Above') : props.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null) : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Send Answer'))));
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (FrontEndRender);
+/* harmony default export */ __webpack_exports__["default"] = (TrueFalseUserAnswer);
 
 /***/ }),
 
@@ -223,8 +213,104 @@ const FrontEndRender = ({
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _blocks_true_false_frontend_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./blocks/true-false/frontend.js */ "./src/blocks/true-false/frontend.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/FrontEndRender */ "./src/components/FrontEndRender.js");
 
+
+
+const questionClass = '.qa-frontend-question-block';
+const questions = document.querySelectorAll(questionClass);
+questions.forEach(question => {
+  const attributes = {
+    block_id: question.dataset.id,
+    post_id: parseInt(question.dataset.post_id, 10),
+    question: question.dataset.question,
+    block_name: question.dataset.block_name
+  };
+  Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    dataAttributes: attributes
+  }), question);
+});
+
+/***/ }),
+
+/***/ "./src/utils/helpers.js":
+/*!******************************!*\
+  !*** ./src/utils/helpers.js ***!
+  \******************************/
+/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractWrappedStrings", function() { return extractWrappedStrings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlocksData", function() { return getBlocksData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "answerNotice", function() { return answerNotice; });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+const extractWrappedStrings = (text, opener, closer) => {
+  const answers = [];
+  const question = text.replaceAll(closer, '').replaceAll(opener, '');
+
+  if (typeof text !== 'string' || typeof opener !== 'string' || typeof closer !== 'string') {
+    return;
+  }
+
+  while (text.indexOf(opener) && text.indexOf(closer) && text.indexOf(opener) < text.indexOf(closer)) {
+    const openingIndex = text.indexOf(opener);
+    const closingIndex = text.indexOf(closer);
+    answers.push(text.substring(openingIndex + opener.length, closingIndex));
+    text = text.substring(closingIndex + closer.length);
+  }
+
+  return {
+    answers: answers,
+    question: question
+  };
+};
+const getBlocksData = (path, method) => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+    path: path,
+    method: method
+  }).then(success => {
+    return success;
+  }).catch(error => {
+    return {
+      type: 'error',
+      message: error.message
+    };
+  });
+};
+const answerNotice = isCorrect => {
+  let noticeText = '';
+  let noticeClass = '';
+
+  switch (isCorrect) {
+    case true:
+      noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('You answered correctly!');
+      noticeClass = 'correct';
+      break;
+
+    case false:
+      noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('That is the wrong answer!');
+      noticeClass = 'correct';
+
+    default:
+      break;
+  }
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: `answer-notice ${noticeClass}`
+  }, " ", noticeText, " ");
+};
 
 /***/ }),
 
@@ -270,6 +356,17 @@ module.exports = __webpack_require__(/*! ./src/frontend.js */"./src/frontend.js"
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["element"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["i18n"]; }());
 
 /***/ })
 

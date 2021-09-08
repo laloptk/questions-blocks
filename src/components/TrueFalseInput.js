@@ -18,4 +18,4 @@ const TrueFalseInput = ( props ) => {
     )
 }
 
-export default TrueFalseInput
+export default TrueFalseInput;

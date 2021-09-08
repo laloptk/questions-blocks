@@ -247,12 +247,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit({
+  name,
   clientId,
   attributes,
   setAttributes
 }) {
   const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])();
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+    setAttributes({
+      block_name: name
+    });
     attributes.id === '' && setAttributes({
       "id": clientId
     });
@@ -449,13 +453,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit({
+  name,
   clientId,
   attributes,
   setAttributes
 }) {
   const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])();
+  const {
+    id,
+    question,
+    answerPairs
+  } = attributes;
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    attributes.id === '' && setAttributes({
+    setAttributes({
+      block_name: name
+    });
+    id === '' && setAttributes({
       id: clientId
     });
   }, []);
@@ -478,10 +491,10 @@ function Edit({
     size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
-    text: attributes.question
+    text: question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_MatchingColumnsRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: handleRepetition,
-    answers: attributes.answerPairs
+    answers: answerPairs
   }))));
 }
 
@@ -630,20 +643,29 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit({
+  name,
   clientId,
   attributes,
   setAttributes
 }) {
   const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])();
+  const {
+    id,
+    question,
+    choices
+  } = attributes;
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    attributes.id === '' && setAttributes({
-      "id": clientId
+    setAttributes({
+      block_name: name
+    });
+    id === '' && setAttributes({
+      id: clientId
     });
   }, []);
 
   const handleQuestionChange = value => {
     setAttributes({
-      "question": value
+      question: value
     });
   };
 
@@ -659,12 +681,12 @@ function Edit({
     size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
-    text: attributes.question
+    text: question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "qa-multiple-choices"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("strong", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Place the answer multiple choices:'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__["default"], {
     onChange: handleChoicesChange,
-    choices: attributes.choices
+    choices: choices
   })))));
 }
 
@@ -813,26 +835,35 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Edit({
+  name,
   clientId,
   attributes,
   setAttributes
 }) {
   const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])();
+  const {
+    id,
+    question,
+    rightAnswer
+  } = attributes;
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-    attributes.id === '' && setAttributes({
-      "id": clientId
+    setAttributes({
+      block_name: name
+    });
+    id === '' && setAttributes({
+      id: clientId
     });
   }, []);
 
   const handleQuestionChange = value => {
     setAttributes({
-      "question": value
+      question: value
     });
   };
 
   const handleAnswerChange = () => {
     setAttributes({
-      "rightAnswer": !attributes.rightAnswer
+      rightAnswer: !rightAnswer
     });
   };
 
@@ -842,10 +873,10 @@ function Edit({
     size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__["default"], {
     handleChange: handleQuestionChange,
-    text: attributes.question
+    text: question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_TrueFalseInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
     handleChange: handleAnswerChange,
-    answer: attributes.rightAnswer
+    answer: rightAnswer
   }))));
 }
 
@@ -1106,10 +1137,12 @@ const MatchingColumnsRepeater = ({
     }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("span", {
       class: "dashicons dashicons-dismiss"
     }))));
-  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Button"], {
+  }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "matching-columns__btn"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Button"], {
     className: "is-primary",
     onClick: handleAddRow
-  }, "Add Row"));
+  }, "Add Row")));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (MatchingColumnsRepeater);
@@ -1207,12 +1240,23 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************!*\
   !*** ./src/utils/helpers.js ***!
   \******************************/
-/*! exports provided: extractWrappedStrings */
+/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractWrappedStrings", function() { return extractWrappedStrings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlocksData", function() { return getBlocksData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "answerNotice", function() { return answerNotice; });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
 const extractWrappedStrings = (text, opener, closer) => {
   const answers = [];
   const question = text.replaceAll(closer, '').replaceAll(opener, '');
@@ -1233,6 +1277,52 @@ const extractWrappedStrings = (text, opener, closer) => {
     question: question
   };
 };
+const getBlocksData = (path, method) => {
+  return _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1___default()({
+    path: path,
+    method: method
+  }).then(success => {
+    return success;
+  }).catch(error => {
+    return {
+      type: 'error',
+      message: error.message
+    };
+  });
+};
+const answerNotice = isCorrect => {
+  let noticeText = '';
+  let noticeClass = '';
+
+  switch (isCorrect) {
+    case true:
+      noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('You answered correctly!');
+      noticeClass = 'correct';
+      break;
+
+    case false:
+      noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('That is the wrong answer!');
+      noticeClass = 'correct';
+
+    default:
+      break;
+  }
+
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: `answer-notice ${noticeClass}`
+  }, " ", noticeText, " ");
+};
+
+/***/ }),
+
+/***/ "@wordpress/api-fetch":
+/*!**********************************!*\
+  !*** external ["wp","apiFetch"] ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["apiFetch"]; }());
 
 /***/ }),
 

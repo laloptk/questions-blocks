@@ -23,6 +23,10 @@
 		"answerPairs": {
 			"type": "array",
 			"default": []
+		},
+		"block_name": {
+			"type": "string",
+			"default": ""
 		}
 	}
 }

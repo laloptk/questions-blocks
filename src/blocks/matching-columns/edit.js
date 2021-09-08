@@ -10,12 +10,13 @@ import QuestionInput from '../../components/QuestionInput';
 import MatchingColumnsRepeater from '../../components/MatchingColumnsRepeater';
 import './editor.scss';
 
-export default function Edit({ clientId, attributes, setAttributes }) {
-	const blockProps = useBlockProps();	
+export default function Edit({ name, clientId, attributes, setAttributes }) {
+	const blockProps = useBlockProps();
+	const { id, question, answerPairs } = attributes;
 
 	useEffect(() => {
-		attributes.id === '' 
-		&& setAttributes( { id: clientId } )
+		setAttributes( { block_name: name } );
+		id === '' && setAttributes( { id: clientId } )
 	}, [])
 
 	const handleQuestionChange = ( value ) => {
@@ -33,8 +34,8 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h3>{ __('Matching Columns Q&A') }</h3>
 				</CardHeader>
 				<CardBody size="small">
-					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question } />
-					<MatchingColumnsRepeater onChange={ handleRepetition } answers={ attributes.answerPairs } />
+					<QuestionInput handleChange={ handleQuestionChange } text={ question } />
+					<MatchingColumnsRepeater onChange={ handleRepetition } answers={ answerPairs } />
 				</CardBody>
 			</Card>				
 		</div>

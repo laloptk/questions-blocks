@@ -1,8 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
 
-const QuestionInput = (props) => {
-    
+const QuestionInput = (props) => {    
     return (
         <div className="qa__header">
             <TextControl 
@@ -14,4 +13,4 @@ const QuestionInput = (props) => {
     )
 }
 
-export default QuestionInput
+export default QuestionInput;

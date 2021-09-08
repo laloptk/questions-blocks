@@ -1,8 +1,7 @@
 import { Button, TextControl } from '@wordpress/components';
 import ChoiceRepeater from './ChoiceRepeater';
 
-const MatchingColumnsRepeater = ( { onChange, answers } ) => {
-    
+const MatchingColumnsRepeater = ( { onChange, answers } ) => {    
     const handleAddRow = () => {
         onChange( [ ...answers, { 'to-match': '', 'match': [ [ '', true ] ] } ] );
     }
@@ -16,7 +15,7 @@ const MatchingColumnsRepeater = ( { onChange, answers } ) => {
     }
 
     const handleChoiceRepetition = ( choices, index ) => {
-        onChange([ ...answers.slice( 0, index ), { 'to-match': answers[index]['to-match'], 'match': choices }, ...answers.slice( index + 1 ) ])
+        onChange([ ...answers.slice( 0, index ), { 'to-match': answers[index]['to-match'], 'match': choices }, ...answers.slice( index + 1 ) ]);
     }
 
     return (
@@ -48,8 +47,9 @@ const MatchingColumnsRepeater = ( { onChange, answers } ) => {
                     )
                 })
             }
-
-            <Button className="is-primary" onClick={ handleAddRow } >Add Row</Button>
+            <div className="matching-columns__btn">
+                <Button className="is-primary" onClick={ handleAddRow } >Add Row</Button>
+            </div>
         </div>
     )
 }

@@ -1,99 +1,60 @@
-import apiFetch from '@wordpress/api-fetch';
-import { RadioControl, Button, Spinner } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
+import TrueFalseUserAnswer from './frontend/TrueFalseUserAnswer';
+import { getBlocksData } from '../utils/helpers';
 
 const FrontEndRender = ( { dataAttributes } ) => {
+    console.log(dataAttributes);
     const [ attributes, setAttributes ] = useState( {
         block_id: 0,
+        post_id: 0,
+        question: '',
+        block_name: ''
     } );
 
-    useEffect( () => {
+    useEffect( () => {        
         setAttributes( {
-            ...dataAttributes,
-        } );
+            ...dataAttributes
+        } );        
     }, [] );
-
-    const [ isLoading, setLoading ] = useState( false );
     
-    const getBlocksData = async () => {
+    const [ userAnswer, setUserAnswer ] = useState( '' );
+    const [ answerIsCorrect, setIsCorrect ] = useState( '' );
+    const [ isLoading, setLoading ] = useState( false );
+
+    const apiCall = async () => {
         setLoading( true );
-
-        const response = await apiFetch( {
-            path: `${qasAPIRoute}/${ dataAttributes.post_id }`,
-            method: 'POST'
-        } ).then( ( success ) => {
-            return success;
-        } )
-        .catch( ( error ) => {
-            return {
-                type: 'error',
-                message: error.message,
-            };
-        } );
-
-        const blocksData = response;
-        const rightAnswer = blocksData[attributes.block_id][0].rightAnswer ? true : false;
-        const userAnswer = attributes.user_answer ? true : false;
-        const answerIsCorrect =  rightAnswer === userAnswer;
-        setAttributes({ ...attributes, isCorrect:  answerIsCorrect })
-        setLoading( false );     
-    }    
+        const response = await getBlocksData( `${ qasAPIRoute }/${ dataAttributes.post_id }`, 'POST');
+        const rightAnswer = response[attributes.block_id][0]['attrs']['rightAnswer'] === true ? true : false;
+        setIsCorrect( (userAnswer === 'true') === rightAnswer );
+        setLoading( false );
+    }  
 
     return (
-        <div className=".qa-frontend" style={
-                attributes.isCorrect === false
-                ? {
-                    backgroundColor: '#FF7F7F'
-                }
-                : attributes.isCorrect === true 
-                ? {
-                    backgroundColor: '#98FB98'
-                } 
-                : {
-                    backgroundColor: 'transparent'
-                }
-            }>
-            <div className="qa-frontend__question">
-                <h2>{ attributes.question }</h2>
-            </div>
-            <div className="qa-frontend__answer" >
-                <RadioControl 
-                    label="Answer"
-                    help={
-                        attributes.user_answer === undefined 
-                        ? "Select an answer"
-                        : attributes.user_answer
-                        ? "You selected 'True' as the right answer"
-                        : "You selected 'False' as the right answer"
-                    }
-                    selected={ attributes.user_answer }
-                    options={ [
-                        { label: 'True', value: 'true' },
-                        { label: 'False', value: '' },
-                    ] }
-                    onChange={ ( value ) => { 
-                        setAttributes( { ...attributes, user_answer: value, isCorrect: null } ) 
-                    }}
-                />
-            </div>
-            <div class="qa-frontend__send">
-                <Button 
-                    variant="secondary"
-                    onClick={ getBlocksData }
-                    disabled={ 
-                        isLoading || attributes.user_answer === undefined 
-                    }
-                >  
-                {
-                    attributes.user_answer === undefined 
-                    ? 'Select an Answer Above'
-                    : isLoading
-                    ? <Spinner />
-                    : 'Send Answer'
-                }                                            
-                </Button>
-            </div>
-        </div>        
+        <>  
+            {
+                attributes.block_name === 'qa/true-false' &&
+                    <TrueFalseUserAnswer 
+                        isCorrect={ answerIsCorrect }
+                        question={ attributes.question }
+                        userAnswer={ userAnswer }
+                        loading={ isLoading }
+                        blocksData={ apiCall }
+                        onChange={ setUserAnswer }
+                    />
+            }
+            {
+                attributes.block_name === 'qa/fill-blanks' &&
+                    <div>Fill Blanks</div>
+            }
+            {
+                attributes.block_name === 'qa/matching-columns' &&
+                    <div>Matching Columns</div>
+            }
+            {
+                attributes.block_name === 'qa/multiple-choice' &&
+                    <div>Multiple Choice</div>
+            }
+        </>    
     );
 }
 

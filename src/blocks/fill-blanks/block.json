@@ -24,6 +24,10 @@
 			"type": "string",
 			"default": ""
 		},
+		"block_name": {
+			"type": "string",
+			"default": ""
+		},
 		"rightAnswers": {
 			"type": "array",
 			"default": []

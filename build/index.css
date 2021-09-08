@@ -132,5 +132,8 @@
   background-color: transparent !important;
   color: rgba(153, 153, 153, 0.6) !important;
 }
+.wp-block-qa-matching-columns .matching-columns__btn {
+  margin-top: 20px;
+}
 
 /*# sourceMappingURL=index.css.map*/

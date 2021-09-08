@@ -1,29 +1,26 @@
 import { __ } from '@wordpress/i18n';
-import { 
-	Card,
-	CardHeader,
-	CardBody
-} from '@wordpress/components';
+import { Card, CardHeader, CardBody } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
 import TrueFalseInput from '../../components/TrueFalseInput';
 import './editor.scss';
 
-export default function Edit({ clientId, attributes, setAttributes }) {
-	const blockProps = useBlockProps();	
+export default function Edit( { name, clientId, attributes, setAttributes } ) {
+	const blockProps = useBlockProps();
+	const { id, question, rightAnswer } = attributes;
 
 	useEffect(() => {
-		attributes.id === '' 
-		&& setAttributes( { "id": clientId } )
+		setAttributes( { block_name: name } );
+		id === '' && setAttributes( { id: clientId } );
 	}, [])
 
 	const handleQuestionChange = (value) => {
-		setAttributes( { "question": value } )
+		setAttributes( { question: value } )
 	}
 
 	const handleAnswerChange = () => {
-		setAttributes({ "rightAnswer": ! attributes.rightAnswer })
+		setAttributes({ rightAnswer: !rightAnswer })
 	}
 
 	return (
@@ -33,8 +30,8 @@ export default function Edit({ clientId, attributes, setAttributes }) {
 					<h3>{ __( 'True or false Q&A' ) }</h3>
 				</CardHeader>
 				<CardBody size="small">
-					<QuestionInput handleChange={ handleQuestionChange } text={ attributes.question }/>
-					<TrueFalseInput handleChange={ handleAnswerChange } answer={ attributes.rightAnswer } />
+					<QuestionInput handleChange={ handleQuestionChange } text={ question }/>
+					<TrueFalseInput handleChange={ handleAnswerChange } answer={ rightAnswer } />
 				</CardBody>
 			</Card>				
 		</div>
