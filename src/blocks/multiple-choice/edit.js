@@ -4,6 +4,7 @@ import { useEffect } from '@wordpress/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import QuestionInput from '../../components/QuestionInput';
 import ChoiceRepeater from '../../components/ChoiceRepeater';
+import { getRightAnswers, getRawOptions } from '../../utils/helpers';
 import './editor.scss';
 
 export default function Edit({ name, clientId, attributes, setAttributes }) {
@@ -20,8 +21,16 @@ export default function Edit({ name, clientId, attributes, setAttributes }) {
 	}              
 
 	const handleChoicesChange = ( choices ) => {
+
+		const rightAnswer = getRightAnswers( choices );
+		const options = getRawOptions( choices );
+
+		setAttributes( { rightAnswer } );
 		setAttributes( { choices } );
+		setAttributes( { options } );
 	}
+
+	console.log(attributes.rightAnswer)
 
 	return (
 		<div { ...blockProps }>

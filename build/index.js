@@ -633,7 +633,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _components_QuestionInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/QuestionInput */ "./src/components/QuestionInput.js");
 /* harmony import */ var _components_ChoiceRepeater__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/ChoiceRepeater */ "./src/components/ChoiceRepeater.js");
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/multiple-choice/editor.scss");
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/helpers */ "./src/utils/helpers.js");
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.scss */ "./src/blocks/multiple-choice/editor.scss");
+
 
 
 
@@ -670,11 +672,20 @@ function Edit({
   };
 
   const handleChoicesChange = choices => {
+    const rightAnswer = Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_6__["getRightAnswers"])(choices);
+    const options = Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_6__["getRawOptions"])(choices);
+    setAttributes({
+      rightAnswer
+    });
     setAttributes({
       choices
     });
+    setAttributes({
+      options
+    });
   };
 
+  console.log(attributes.rightAnswer);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Multiple Choice Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
@@ -861,12 +872,13 @@ function Edit({
     });
   };
 
-  const handleAnswerChange = () => {
+  const handleAnswerChange = value => {
     setAttributes({
-      rightAnswer: !rightAnswer
+      rightAnswer: value
     });
   };
 
+  console.log(attributes);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Card"], {
     size: "small"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardHeader"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h3", null, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('True or false Q&A'))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CardBody"], {
@@ -876,7 +888,7 @@ function Edit({
     text: question
   }), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_TrueFalseInput__WEBPACK_IMPORTED_MODULE_5__["default"], {
     handleChange: handleAnswerChange,
-    answer: rightAnswer
+    answer: attributes.rightAnswer
   }))));
 }
 
@@ -1204,10 +1216,17 @@ __webpack_require__.r(__webpack_exports__);
 const TrueFalseInput = props => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "qa__body"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["ToggleControl"], {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["RadioControl"], {
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Choose which answer is the right one.'),
-    help: props.answer ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You chose "True" as the the right answer.') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('You chose "False" as the the right answer.'),
-    checked: props.answer,
+    help: props.answer === undefined ? "Select an answer" : props.answer ? "You selected 'True' as the right answer" : "You selected 'False' as the right answer",
+    selected: props.answer,
+    options: [{
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('True'),
+      value: "true"
+    }, {
+      label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('False'),
+      value: "false"
+    }],
     onChange: props.handleChange
   }));
 };
@@ -1240,7 +1259,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!******************************!*\
   !*** ./src/utils/helpers.js ***!
   \******************************/
-/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice */
+/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice, getRawOptions, getComponentOptions, getRightAnswers, compareAnswers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1248,6 +1267,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractWrappedStrings", function() { return extractWrappedStrings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlocksData", function() { return getBlocksData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "answerNotice", function() { return answerNotice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRawOptions", function() { return getRawOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getComponentOptions", function() { return getComponentOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRightAnswers", function() { return getRightAnswers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compareAnswers", function() { return compareAnswers; });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
@@ -1302,7 +1325,7 @@ const answerNotice = isCorrect => {
 
     case false:
       noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('That is the wrong answer!');
-      noticeClass = 'correct';
+      noticeClass = 'incorrect';
 
     default:
       break;
@@ -1311,6 +1334,65 @@ const answerNotice = isCorrect => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `answer-notice ${noticeClass}`
   }, " ", noticeText, " ");
+};
+const getRawOptions = choices => {
+  const options = choices.map(choice => {
+    return choice[0];
+  });
+  return options;
+};
+const getComponentOptions = options => {
+  const componentOptions = options.map((option, index) => {
+    const value = option === '' ? `empty-${index}` : option;
+    return {
+      label: option,
+      value: value
+    };
+  });
+  return componentOptions;
+};
+const getRightAnswers = choices => {
+  if (typeof choices !== 'object') {
+    return;
+  }
+
+  const rightAnswers = [];
+
+  for (let i in choices) {
+    if (choices[i][1]) {
+      rightAnswers.push(choices[i][0]);
+    }
+  }
+
+  return rightAnswers;
+};
+const compareAnswers = (userAnswer, rightAnswer) => {
+  const lengthIsEqual = userAnswer.length === rightAnswer.length;
+  const typeIsEqual = typeof rightAnswer === typeof userAnswer;
+
+  if (!typeIsEqual || !lengthIsEqual) {
+    return false;
+  }
+
+  if (typeof rightAnswer === 'string' || typeof rightAnswer === 'boolean' || typeof rightAnswer === 'number') {
+    return rightAnswer === userAnswer;
+  }
+
+  if (typeof rightAnswer === 'object') {
+    for (let i in userAnswer) {
+      const answerExists = rightAnswer.indexOf(userAnswer[i]);
+
+      if (answerExists === -1) {
+        return false;
+      } else {
+        rightAnswer.splice(answerExists, 1);
+      }
+    }
+
+    return true;
+  }
+
+  return false;
 };
 
 /***/ }),

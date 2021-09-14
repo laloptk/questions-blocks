@@ -27,6 +27,13 @@
 		"choices": {
 			"type": "array",
 			"default": []
+		},
+		"options": {
+			"type": "array",
+			"default": []
+		},
+		"rightAnswer": {
+			"type": "array"
 		}
 	}
 }

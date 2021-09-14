@@ -12,6 +12,14 @@ questions.forEach( ( question ) => {
         block_name: question.dataset.block_name   
     };
 
+    if( question.dataset.options !== undefined ) {
+        attributes.options = question.dataset.options;
+    }
+
+    if( question.dataset.choosen_qty !== undefined ) {
+        attributes.choosen_qty = question.dataset.choosen_qty;
+    }
+
     render(
         <FrontEndRender dataAttributes={ attributes } />,
         question

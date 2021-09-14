@@ -98,7 +98,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _frontend_TrueFalseUserAnswer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./frontend/TrueFalseUserAnswer */ "./src/components/frontend/TrueFalseUserAnswer.js");
-/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/helpers */ "./src/utils/helpers.js");
+/* harmony import */ var _frontend_MultipleChoiceUserAnswer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./frontend/MultipleChoiceUserAnswer */ "./src/components/frontend/MultipleChoiceUserAnswer.js");
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/helpers */ "./src/utils/helpers.js");
+
 
 
 
@@ -107,7 +109,9 @@ __webpack_require__.r(__webpack_exports__);
 const FrontEndRender = ({
   dataAttributes
 }) => {
-  console.log(dataAttributes);
+  const [userAnswer, setUserAnswer] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [answerIsCorrect, setIsCorrect] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
+  const [isLoading, setLoading] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
   const [attributes, setAttributes] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])({
     block_id: 0,
     post_id: 0,
@@ -118,17 +122,14 @@ const FrontEndRender = ({
     setAttributes({ ...dataAttributes
     });
   }, []);
-  const [userAnswer, setUserAnswer] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [answerIsCorrect, setIsCorrect] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])('');
-  const [isLoading, setLoading] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
 
   const apiCall = async () => {
     setLoading(true);
-    const response = await Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_2__["getBlocksData"])(`${qasAPIRoute}/${dataAttributes.post_id}`, 'POST');
-    const rightAnswer = response[attributes.block_id][0]['attrs']['rightAnswer'] === true ? true : false;
-    setIsCorrect(userAnswer === 'true' === rightAnswer);
+    const response = await Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["getBlocksData"])(`${qasAPIRoute}/${dataAttributes.post_id}`, 'POST');
+    setIsCorrect(Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["compareAnswers"])(userAnswer, response[attributes.block_id][0]['attrs']['rightAnswer']));
     setLoading(false);
-  };
+  }; //console.log( userAnswer );
+
 
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, attributes.block_name === 'qa/true-false' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_TrueFalseUserAnswer__WEBPACK_IMPORTED_MODULE_1__["default"], {
     isCorrect: answerIsCorrect,
@@ -137,10 +138,92 @@ const FrontEndRender = ({
     loading: isLoading,
     blocksData: apiCall,
     onChange: setUserAnswer
-  }), attributes.block_name === 'qa/fill-blanks' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Fill Blanks"), attributes.block_name === 'qa/matching-columns' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Matching Columns"), attributes.block_name === 'qa/multiple-choice' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Multiple Choice"));
+  }), attributes.block_name === 'qa/fill-blanks' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Fill Blanks"), attributes.block_name === 'qa/matching-columns' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", null, "Matching Columns"), attributes.block_name === 'qa/multiple-choice' && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_frontend_MultipleChoiceUserAnswer__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    isCorrect: answerIsCorrect,
+    question: attributes.question,
+    userAnswer: userAnswer,
+    loading: isLoading,
+    blocksData: apiCall,
+    onChange: setUserAnswer,
+    options: attributes.options,
+    rightChoicesQty: attributes.choosen_qty
+  }));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (FrontEndRender);
+
+/***/ }),
+
+/***/ "./src/components/frontend/MultipleChoiceUserAnswer.js":
+/*!*************************************************************!*\
+  !*** ./src/components/frontend/MultipleChoiceUserAnswer.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_helpers__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../utils/helpers */ "./src/utils/helpers.js");
+
+
+
+
+
+
+const MultipleChoiceUserAnswer = props => {
+  const [checkValues, setCheckValues] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(new Array(JSON.parse(props.options).length).fill(false));
+
+  const handleSingleAnswer = value => {
+    props.onChange([value]);
+  };
+
+  const handleMultipleAnswers = (value, option, index) => {
+    setCheckValues([...checkValues.slice(0, index), value, ...checkValues.slice(index + 1)]);
+    const optionIndex = props.userAnswer.indexOf(option);
+    !checkValues[index] ? props.onChange([...props.userAnswer, option]) : props.onChange([...props.userAnswer.slice(0, optionIndex), ...props.userAnswer.slice(optionIndex + 1)]);
+  };
+
+  console.log(props.userAnswer);
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-frontend",
+    style: props.isCorrect === false ? {
+      backgroundColor: '#FF7F7F'
+    } : props.isCorrect === true ? {
+      backgroundColor: '#98FB98'
+    } : {
+      backgroundColor: 'transparent'
+    }
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-frontend__question"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h2", null, props.question)), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    className: "qa-frontend__answer"
+  }, parseInt(props.rightChoicesQty) <= 1 ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["RadioControl"], {
+    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Answer'),
+    selected: props.userAnswer[0],
+    options: Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["getComponentOptions"])(JSON.parse(props.options)),
+    onChange: handleSingleAnswer
+  }) : JSON.parse(props.options).map((option, index) => {
+    return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["CheckboxControl"], {
+      label: option,
+      checked: checkValues[index],
+      onChange: value => handleMultipleAnswers(value, option, index)
+    });
+  })), Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["answerNotice"])(props.isCorrect), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
+    class: "qa-frontend__send"
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
+    variant: "secondary",
+    onClick: props.blocksData,
+    disabled: (props.loading || props.userAnswer === '') === true
+  }, props.userAnswer === '' ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Select an Answer Above') : props.loading ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Spinner"], null) : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('Send Answer'))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (MultipleChoiceUserAnswer);
 
 /***/ }),
 
@@ -190,7 +273,7 @@ const TrueFalseUserAnswer = props => {
       label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])('False'),
       value: 'false'
     }],
-    onChange: value => props.onChange(value)
+    onChange: props.onChange
   })), Object(_utils_helpers__WEBPACK_IMPORTED_MODULE_3__["answerNotice"])(props.isCorrect), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     class: "qa-frontend__send"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["Button"], {
@@ -228,6 +311,15 @@ questions.forEach(question => {
     question: question.dataset.question,
     block_name: question.dataset.block_name
   };
+
+  if (question.dataset.options !== undefined) {
+    attributes.options = question.dataset.options;
+  }
+
+  if (question.dataset.choosen_qty !== undefined) {
+    attributes.choosen_qty = question.dataset.choosen_qty;
+  }
+
   Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["render"])(Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_components_FrontEndRender__WEBPACK_IMPORTED_MODULE_1__["default"], {
     dataAttributes: attributes
   }), question);
@@ -239,7 +331,7 @@ questions.forEach(question => {
 /*!******************************!*\
   !*** ./src/utils/helpers.js ***!
   \******************************/
-/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice */
+/*! exports provided: extractWrappedStrings, getBlocksData, answerNotice, getRawOptions, getComponentOptions, getRightAnswers, compareAnswers */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -247,6 +339,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "extractWrappedStrings", function() { return extractWrappedStrings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getBlocksData", function() { return getBlocksData; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "answerNotice", function() { return answerNotice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRawOptions", function() { return getRawOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getComponentOptions", function() { return getComponentOptions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRightAnswers", function() { return getRightAnswers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compareAnswers", function() { return compareAnswers; });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
@@ -301,7 +397,7 @@ const answerNotice = isCorrect => {
 
     case false:
       noticeText = Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__["__"])('That is the wrong answer!');
-      noticeClass = 'correct';
+      noticeClass = 'incorrect';
 
     default:
       break;
@@ -310,6 +406,65 @@ const answerNotice = isCorrect => {
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: `answer-notice ${noticeClass}`
   }, " ", noticeText, " ");
+};
+const getRawOptions = choices => {
+  const options = choices.map(choice => {
+    return choice[0];
+  });
+  return options;
+};
+const getComponentOptions = options => {
+  const componentOptions = options.map((option, index) => {
+    const value = option === '' ? `empty-${index}` : option;
+    return {
+      label: option,
+      value: value
+    };
+  });
+  return componentOptions;
+};
+const getRightAnswers = choices => {
+  if (typeof choices !== 'object') {
+    return;
+  }
+
+  const rightAnswers = [];
+
+  for (let i in choices) {
+    if (choices[i][1]) {
+      rightAnswers.push(choices[i][0]);
+    }
+  }
+
+  return rightAnswers;
+};
+const compareAnswers = (userAnswer, rightAnswer) => {
+  const lengthIsEqual = userAnswer.length === rightAnswer.length;
+  const typeIsEqual = typeof rightAnswer === typeof userAnswer;
+
+  if (!typeIsEqual || !lengthIsEqual) {
+    return false;
+  }
+
+  if (typeof rightAnswer === 'string' || typeof rightAnswer === 'boolean' || typeof rightAnswer === 'number') {
+    return rightAnswer === userAnswer;
+  }
+
+  if (typeof rightAnswer === 'object') {
+    for (let i in userAnswer) {
+      const answerExists = rightAnswer.indexOf(userAnswer[i]);
+
+      if (answerExists === -1) {
+        return false;
+      } else {
+        rightAnswer.splice(answerExists, 1);
+      }
+    }
+
+    return true;
+  }
+
+  return false;
 };
 
 /***/ }),

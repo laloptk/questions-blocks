@@ -36,7 +36,7 @@ const TrueFalseUserAnswer = ( props ) => {
                     { label: __( 'True' ), value: 'true' },
                     { label: __( 'False' ), value: 'false' },
                 ] }
-                onChange={ ( value ) => props.onChange( value ) }
+                onChange={ props.onChange }
             />
         </div>
         { answerNotice( props.isCorrect ) }

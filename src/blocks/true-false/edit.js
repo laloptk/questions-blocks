@@ -15,14 +15,14 @@ export default function Edit( { name, clientId, attributes, setAttributes } ) {
 		id === '' && setAttributes( { id: clientId } );
 	}, [])
 
-	const handleQuestionChange = (value) => {
+	const handleQuestionChange = ( value ) => {
 		setAttributes( { question: value } )
 	}
 
-	const handleAnswerChange = () => {
-		setAttributes({ rightAnswer: !rightAnswer })
+	const handleAnswerChange = ( value ) => {
+		setAttributes( { rightAnswer: value } )
 	}
-
+	console.log(attributes);
 	return (
 		<div { ...blockProps }>
 			<Card size="small">
@@ -31,7 +31,7 @@ export default function Edit( { name, clientId, attributes, setAttributes } ) {
 				</CardHeader>
 				<CardBody size="small">
 					<QuestionInput handleChange={ handleQuestionChange } text={ question }/>
-					<TrueFalseInput handleChange={ handleAnswerChange } answer={ rightAnswer } />
+					<TrueFalseInput handleChange={ handleAnswerChange } answer={ attributes.rightAnswer } />
 				</CardBody>
 			</Card>				
 		</div>

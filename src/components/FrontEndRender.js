@@ -1,9 +1,14 @@
 import { useEffect, useState } from '@wordpress/element';
 import TrueFalseUserAnswer from './frontend/TrueFalseUserAnswer';
-import { getBlocksData } from '../utils/helpers';
+import MultipleChoiceUserAnswer from './frontend/MultipleChoiceUserAnswer';
+import { getBlocksData, compareAnswers  } from '../utils/helpers';
 
 const FrontEndRender = ( { dataAttributes } ) => {
-    console.log(dataAttributes);
+
+    const [ userAnswer, setUserAnswer ] = useState( '' );
+    const [ answerIsCorrect, setIsCorrect ] = useState( '' );
+    const [ isLoading, setLoading ] = useState( false );
+
     const [ attributes, setAttributes ] = useState( {
         block_id: 0,
         post_id: 0,
@@ -11,23 +16,20 @@ const FrontEndRender = ( { dataAttributes } ) => {
         block_name: ''
     } );
 
-    useEffect( () => {        
+    useEffect( () => {       
         setAttributes( {
             ...dataAttributes
         } );        
-    }, [] );
-    
-    const [ userAnswer, setUserAnswer ] = useState( '' );
-    const [ answerIsCorrect, setIsCorrect ] = useState( '' );
-    const [ isLoading, setLoading ] = useState( false );
+    }, [] );    
 
     const apiCall = async () => {
         setLoading( true );
         const response = await getBlocksData( `${ qasAPIRoute }/${ dataAttributes.post_id }`, 'POST');
-        const rightAnswer = response[attributes.block_id][0]['attrs']['rightAnswer'] === true ? true : false;
-        setIsCorrect( (userAnswer === 'true') === rightAnswer );
+        setIsCorrect( compareAnswers( userAnswer, response[attributes.block_id][0]['attrs']['rightAnswer'] ) );
         setLoading( false );
-    }  
+    } 
+
+    //console.log( userAnswer );
 
     return (
         <>  
@@ -52,7 +54,16 @@ const FrontEndRender = ( { dataAttributes } ) => {
             }
             {
                 attributes.block_name === 'qa/multiple-choice' &&
-                    <div>Multiple Choice</div>
+                    <MultipleChoiceUserAnswer 
+                        isCorrect={ answerIsCorrect }
+                        question={ attributes.question }
+                        userAnswer={ userAnswer }
+                        loading={ isLoading }
+                        blocksData={ apiCall }
+                        onChange={ setUserAnswer }
+                        options={ attributes.options }
+                        rightChoicesQty = { attributes.choosen_qty }
+                    />
             }
         </>    
     );

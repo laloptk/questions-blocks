@@ -32,7 +32,6 @@ function qa_render_blockmarkup( array $attributes ) {
     $id    = $attributes['id'];
     $question = $attributes['question'];
     $name = $attributes['block_name'];
-
     ob_start();
     ?>
 
@@ -42,6 +41,20 @@ function qa_render_blockmarkup( array $attributes ) {
         data-post_id="<?php echo esc_attr( get_the_ID() ); ?>"
         data-question="<?php echo esc_attr( $question ); ?>"
         data-block_name="<?php echo esc_attr( $name ); ?>"
+        <?php if( isset( $attributes['options'] ) ): ?>
+            data-options="<?php echo esc_attr( json_encode( $attributes['options'] ) ); ?>"  
+        <?php endif; ?>     
+        <?php 
+            if( isset( $attributes['choices'] ) ):
+                $qty = 0;
+                foreach($attributes['choices'] as $choice):
+                    if( $choice[1] ) {
+                        $qty++;
+                    }
+                endforeach;
+        ?>
+            data-choosen_qty="<?php echo esc_attr( $qty ); ?>"  
+        <?php endif; ?>
     >
     </div>
 

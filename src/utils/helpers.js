@@ -46,10 +46,72 @@ export const answerNotice = ( isCorrect ) => {
             break;
         case false:
             noticeText = __( 'That is the wrong answer!' );
-            noticeClass = 'correct';
+            noticeClass = 'incorrect';
         default:
             break;
     }
     
     return ( <div className={ `answer-notice ${ noticeClass }` }> { noticeText } </div> );
+}
+
+export const getRawOptions = ( choices ) => {
+    const options = choices.map(( choice ) => { 
+        return choice[0];
+    });
+
+    return options;
+}
+
+export const getComponentOptions = ( options ) => {
+    const componentOptions = options.map(( option, index ) => { 
+        const value = option === '' ? `empty-${index}` : option;     
+        return { label: option, value: value };
+    });
+
+    return componentOptions;
+}
+
+export const getRightAnswers = ( choices ) => {
+    if( typeof choices !== 'object') {
+        return;
+    }
+
+    const rightAnswers = [];
+
+    for( let i in choices) {
+        if(choices[i][1]) {
+            rightAnswers.push( choices[i][0] );
+        }
+    }
+
+    return rightAnswers;
+}
+
+export const compareAnswers = ( userAnswer, rightAnswer) => {
+    const lengthIsEqual = userAnswer.length === rightAnswer.length;
+    const typeIsEqual = typeof rightAnswer === typeof userAnswer;
+
+    if( !typeIsEqual || !lengthIsEqual ) {
+        return false;
+    }
+
+    if( typeof rightAnswer === 'string' || typeof rightAnswer === 'boolean' || typeof rightAnswer === 'number' ) {
+        return rightAnswer === userAnswer;
+    }
+
+    if( typeof rightAnswer === 'object') {
+        for( let i in userAnswer ) {
+            const answerExists = rightAnswer.indexOf( userAnswer[i] );
+
+            if( answerExists === -1 ) {
+                return false;
+            } else {
+                rightAnswer.splice(answerExists, 1);
+            }
+        }
+
+        return true;
+    }
+
+    return false;
 }
