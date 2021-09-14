@@ -1388,11 +1388,9 @@ const compareAnswers = (userAnswer, rightAnswer) => {
         rightAnswer.splice(answerExists, 1);
       }
     }
-
-    return true;
   }
 
-  return false;
+  return true;
 };
 
 /***/ }),

@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { RadioControl, CheckboxControl, Button, Spinner } from '@wordpress/components';
 import { answerNotice, getComponentOptions } from '../../utils/helpers';
 
@@ -17,8 +17,6 @@ const MultipleChoiceUserAnswer = ( props ) => {
         ? props.onChange( [ ...props.userAnswer, option ] )
         : props.onChange( [ ...props.userAnswer.slice(0, optionIndex), ...props.userAnswer.slice( optionIndex + 1 ) ] )
     }
-
-    console.log(props.userAnswer);
 
     return (
         <div className="qa-frontend" style={

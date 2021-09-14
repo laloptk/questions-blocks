@@ -189,7 +189,6 @@ const MultipleChoiceUserAnswer = props => {
     !checkValues[index] ? props.onChange([...props.userAnswer, option]) : props.onChange([...props.userAnswer.slice(0, optionIndex), ...props.userAnswer.slice(optionIndex + 1)]);
   };
 
-  console.log(props.userAnswer);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     className: "qa-frontend",
     style: props.isCorrect === false ? {
@@ -460,11 +459,9 @@ const compareAnswers = (userAnswer, rightAnswer) => {
         rightAnswer.splice(answerExists, 1);
       }
     }
-
-    return true;
   }
 
-  return false;
+  return true;
 };
 
 /***/ }),
